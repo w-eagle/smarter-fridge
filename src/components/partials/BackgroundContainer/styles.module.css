@@ -1,0 +1,247 @@
+.container {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.containerNight {
+    transition: background;
+    background-color: rgba(9, 0, 20, 1);
+}
+
+.containerDay {
+    transition: background;
+    background-color: rgba(0, 202, 255, 1);
+}
+
+.containerSunshine {
+    background: rgb(255, 226, 130);
+    background: linear-gradient(
+        180deg,
+        rgba(255, 226, 130, 0.1) 0%,
+        rgba(255, 226, 130, 1) 30%,
+        rgba(252, 168, 116, 1) 50%,
+        rgba(252, 168, 116, 1) 55%,
+        rgba(255, 226, 130, 1) 80%,
+        rgba(0, 202, 255, 0.3) 90%,
+        rgba(255, 226, 130, 0) 100%
+    );
+    opacity: 0.9;
+    position: absolute;
+    width: 100%;
+    height: 500px;
+    bottom: 0;
+}
+
+.sun {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: yellow;
+    top: 34%;
+    left: 10%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 1);
+    -moz-box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 1);
+    box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 1);
+    animation: suntravel linear forwards;
+    z-index: 40;
+}
+
+.moon {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: silver;
+    top: 34%;
+    left: 10%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
+    -moz-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
+    box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
+    animation: moontravel linear forwards;
+    z-index: 41;
+}
+
+.rise {
+    animation: sunrise linear forwards;
+    bottom: 90px;
+}
+
+.visible {
+    transition: opacity;
+    opacity: 1;
+}
+
+.invisible {
+    transition: opacity;
+    opacity: 0;
+}
+
+@keyframes moontravel {
+    0% {
+        top: 36%;
+        left: 10%;
+    }
+    5% {
+        top: 19%;
+        left: 15%;
+    }
+    10% {
+        top: 13%;
+        left: 20%;
+    }
+    15% {
+        top: 9%;
+        left: 25%;
+    }
+    20% {
+        top: 6%;
+        left: 30%;
+    }
+    25% {
+        top: 4%;
+        left: 35%;
+    }
+    30% {
+        top: 3%;
+        left: 40%;
+    }
+    35% {
+        top: 3%;
+        left: 45%;
+    }
+    40% {
+        top: 3%;
+        left: 50%;
+    }
+    45% {
+        top: 3%;
+        left: 55%;
+    }
+    50% {
+        top: 3%;
+        left: 60%;
+    }
+    55% {
+        top: 4%;
+        left: 65%;
+    }
+    60% {
+        top: 6%;
+        left: 70%;
+    }
+    65% {
+        top: 9%;
+        left: 75%;
+    }
+    70% {
+        top: 15%;
+        left: 80%;
+    }
+    75% {
+        top: 23%;
+        left: 85%;
+    }
+    80% {
+        top: 36%;
+        left: 90%;
+    }
+    100% {
+        top: 44%;
+        left: 90%;
+    }
+}
+@keyframes suntravel {
+    0% {
+        top: 36%;
+        left: 10%;
+    }
+    5% {
+        top: 19%;
+        left: 15%;
+    }
+    10% {
+        top: 13%;
+        left: 20%;
+    }
+    15% {
+        top: 9%;
+        left: 25%;
+    }
+    20% {
+        top: 6%;
+        left: 30%;
+    }
+    25% {
+        top: 4%;
+        left: 35%;
+    }
+    30% {
+        top: 3%;
+        left: 40%;
+    }
+    35% {
+        top: 3%;
+        left: 45%;
+    }
+    40% {
+        top: 3%;
+        left: 50%;
+    }
+    45% {
+        top: 3%;
+        left: 55%;
+    }
+    50% {
+        top: 3%;
+        left: 60%;
+    }
+    55% {
+        top: 4%;
+        left: 65%;
+    }
+    60% {
+        top: 6%;
+        left: 70%;
+    }
+    65% {
+        top: 9%;
+        left: 75%;
+    }
+    70% {
+        top: 15%;
+        left: 80%;
+    }
+    75% {
+        top: 23%;
+        left: 85%;
+    }
+    80% {
+        top: 36%;
+        left: 90%;
+    }
+    100% {
+        top: 44%;
+        left: 90%;
+    }
+}
+
+@keyframes sunrise {
+    0% {
+        bottom: 90px;
+        opacity: 1;
+    }
+    50% {
+        bottom: 500px;
+        opacity: 1;
+    }
+    99% {
+        bottom: 500px;
+        opacity: 0;
+    }
+    100% {
+        bottom: 500px;
+        opacity: 0;
+    }
+}

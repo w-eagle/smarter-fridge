@@ -1,0 +1,35 @@
+.headerWrapper {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.5fr;
+    width: 100%;
+}
+
+.displayedDate {
+    color: white;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.arrowWrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.arrow {
+    width: 20px;
+    height: 20px;
+    transform: rotate(90deg);
+}
+
+.leftArrow {
+    transform: rotate(270deg);
+}

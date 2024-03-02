@@ -1,0 +1,59 @@
+.calendarWrapper {
+    width: 100%;
+}
+
+.card {
+    width: 100%;
+}
+
+.table {
+    text-align: center;
+    min-height: 175px;
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 12px;
+    color: white;
+    border-spacing: 0 2px;
+}
+
+.todayCell {
+    background-color: rgba(205, 205, 205, 0.5);
+    color: white;
+    border-radius: 5px;
+}
+
+.headerCell {
+    height: 25px;
+    width: 14.25%;
+    cursor: pointer;
+}
+
+.rowCell {
+    height: 25px;
+    width: 14.25%;
+    font-weight: 400;
+}
+
+.selectedStartCellWithoutEndDate {
+    color: white;
+    background-color: rgb(3 105 161);
+    border-radius: 5px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+    .table {
+        max-width: calc(100% - 20px);
+    }
+
+    .card {
+        max-width: 210px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
