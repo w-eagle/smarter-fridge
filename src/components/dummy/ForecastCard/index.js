@@ -15,15 +15,17 @@ export const ForecastCard = ({
             e.stopPropagation();
             handleClick();
         }}
-        className={`${isSelected ? "border" : ""} text-center ml-[20px] py-2 px-4  rounded-lg`}
+        className={`${
+            isSelected ? "border" : ""
+        } flex flex-col justify-center items-center text-center ml-[20px] py-2 px-4  rounded-lg`}
     >
-        <div className="flex justify-center">
+        <div className="w-[40px] flex justify-between">
             <img className="w-[15px] mr-1" src={arrowUp.src} />
-            <p>{maxTemp}</p>
+            <p>{maxTemp.toFixed()}</p>
         </div>
-        <div className="flex justify-center">
+        <div className="w-[40px] flex justify-between">
             <img className="w-[15px] mr-1 rotate-180" src={arrowUp.src} />
-            <p>{minTemp}</p>
+            <p>{minTemp.toFixed()}</p>
         </div>
         <img className="mx-auto" src={icon} />
         <div className="flex justify-center mt-[2px]">

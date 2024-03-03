@@ -53,6 +53,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
         return null;
     }
     const [isDay, setDay] = useState(false);
+    const [isMoonVisible, showMoon] = useState(false);
     const [astroInfo, setAstroInfo] = useState(getAstroInfo(forecast));
     const [weatherConditions, setWeatherConditions] = useState();
     const [shouldShowSunrise, setShowingSunrise] = useState(false);
@@ -73,6 +74,8 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
 
             const sunrise = dayjs(`${todaysAstro.date} ${todaysAstro.astro.sunrise}`);
             const sunset = dayjs(`${todaysAstro.date} ${todaysAstro.astro.sunset}`);
+            const moonrise = dayjs(`${todaysAstro.date} ${todaysAstro.astro.moonrise}`);
+            const moonset = dayjs(`${todaysAstro.date} ${todaysAstro.astro.moonset}`);
 
             const now = dayjs();
 
@@ -85,6 +88,24 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                 setShowingSunrise(true);
             }
 
+            if (!isMoonVisible && now.isAfter(moonrise) && now.isBefore(moonset)) {
+                showMoon(true);
+            }
+
+            if (isMoonVisible && now.isBefore(moonrise) && now.isAfter(moonset)) {
+                showMoon(false);
+            }
+
+            if (
+                isMoonVisible &&
+                now.hour() <= moonrise.hour() &&
+                now.minute() <= moonrise.minute() &&
+                now.hour() < moonset.hour() &&
+                now.minute() < moonset.minute()
+            ) {
+                showMoon(true);
+            }
+
             if (now.isAfter(sunrise) && now.isBefore(sunset) && !isDay) {
                 return setDay(true);
             } else if (now.isBefore(sunrise) && isDay) {
@@ -92,7 +113,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
             } else if (now.isAfter(sunset) && isDay) {
                 return setDay(false);
             }
-        }, [1000]);
+        }, [1000 * 60]);
 
         return () => clearInterval(int);
     }, []);
@@ -106,20 +127,20 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
     return !astroInfo || !weatherConditions ? null : (
         <div className={styles.container}>
             <div
-                style={{ transitionDuration: `${astroInfo.sunriseLength / 12}s` }}
+                style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
                 className={`${
                     !isDay ? styles.containerNight : styles.containerDay
                 } h-[100vh] w-[100vw]`}
             >
                 <img
-                    style={{ transitionDuration: `${astroInfo.sunriseLength / 12}s` }}
+                    style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
                     className={`${
                         isDay ? styles.visible : styles.invisible
                     } w-full h-full absolute top-0 left-0 z-[70]`}
                     src={houseDay.src}
                 />
                 <img
-                    style={{ transitionDuration: `${astroInfo.sunriseLength / 12}s` }}
+                    style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
                     className={`${
                         !isDay ? styles.visible : styles.invisible
                     } w-full h-full absolute top-0 left-0 z-[70]`}
@@ -144,10 +165,10 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
             ></div>
             <div
                 style={{ animationDuration: astroInfo.moonTimeOnSkyInSeconds }}
-                className={`${!isDay ? styles.moon : styles.invisible}`}
+                className={`${isMoonVisible ? styles.moon : styles.invisible}`}
             ></div>
             <div
-                style={{ transitionDuration: `${astroInfo.sunriseLength / 2}s` }}
+                style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
                 className={`${stars.starsConatiner} ${!isDay ? styles.visible : styles.invisible}`}
             >
                 <div className={stars.mainContainer}>

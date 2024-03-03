@@ -9,6 +9,20 @@ import sunsetIcon from ".././../../../public/sunset.svg";
 import moonriseIcon from ".././../../../public/moonrise.svg";
 import moonsetIcon from ".././../../../public/moonset.svg";
 
+const getTitle = (selectedDate) => {
+    const today = dayjs().format("YYYY-MM-DD");
+    const tomorrow = dayjs().add(1, "day").format("YYYY-MM-DD");
+    const afterTomorrow = dayjs().add(2, "day").format("YYYY-MM-DD");
+    console.log("the date", selectedDate, today);
+
+    if (selectedDate === today) {
+        return "Today";
+    } else if (selectedDate === tomorrow) {
+        return "Tomorrow";
+    }
+    return dayjs().add(2, "day").format("dddd");
+};
+
 export const Weather = ({ currentWeather, forecast }) => {
     if (!currentWeather || !forecast) {
         return;
@@ -30,16 +44,6 @@ export const Weather = ({ currentWeather, forecast }) => {
             className={`${
                 expanded ? "w-full h-full" : "w-[300px] h-[142px]"
             } widgetBackground animated inline-block px-8 py-4 rounded-lg backdrop-blur-sm border border-slate-600 cursor-pointer`}
-            onClick={() => {
-                clearTimeout(timeout);
-                expand((value) => {
-                    if (!value) {
-                        timeout;
-                    }
-
-                    return !value;
-                });
-            }}
         >
             <div
                 className={`${
@@ -51,10 +55,13 @@ export const Weather = ({ currentWeather, forecast }) => {
                 <div
                     className={`${
                         expanded ? "opacity-1 animationDelay" : " opacity-0"
-                    } animate h-full flex w-full overflow-auto`}
+                    } animate h-full w-full`}
                 >
                     {expanded ? (
-                        <WeatherByHourPanel title={"Today"} forecastByHour={forecastByHour} />
+                        <WeatherByHourPanel
+                            title={getTitle(selectedForecastDay)}
+                            forecastByHour={forecastByHour}
+                        />
                     ) : null}
                 </div>
                 <div className={`${expanded ? "flex-col" : ""}`}>
@@ -74,16 +81,32 @@ export const Weather = ({ currentWeather, forecast }) => {
                                 <div className="flex w-[125px]">
                                     <div className="text-center">
                                         <img className="w-[60px] h-[60px]" src={moonriseIcon.src} />
-                                        <p className="text-xs font-bold">{todaysAstro.moonrise}</p>
+                                        <p className="text-xs font-bold max-w-[55px]">
+                                            {todaysAstro.moonrise}
+                                        </p>
                                     </div>
                                     <div className="text-center">
                                         <img className="w-[60px] h-[60px]" src={moonsetIcon.src} />
-                                        <p className="text-xs font-bold">{todaysAstro.moonset}</p>
+                                        <p className="text-xs font-bold max-w-[55px]">
+                                            {todaysAstro.moonset}
+                                        </p>
                                     </div>
                                 </div>
                             ) : null}
                         </div>
-                        <div className={`inline-block text-white`}>
+                        <div
+                            onClick={() => {
+                                clearTimeout(timeout);
+                                expand((value) => {
+                                    if (!value) {
+                                        timeout;
+                                    }
+
+                                    return !value;
+                                });
+                            }}
+                            className={`inline-block text-white`}
+                        >
                             <div className="flex items-center justify-center w-[80px]">
                                 <img
                                     className="w-[60px] h-[60px]"
@@ -104,14 +127,18 @@ export const Weather = ({ currentWeather, forecast }) => {
                         </div>
                     </div>
                     <div
+                        onClick={(e) => {
+                            e.stopPropagation();
+                        }}
                         className={`${
                             expanded ? "opacity-1 animationDelay" : " opacity-0"
                         } animate`}
                     >
                         {expanded ? (
-                            <div className="mt-[40px] w-full flex justify-end items-center">
-                                {forecast.forecast.forecastday.map((day) => (
+                            <div className="mt-[25px] w-full flex justify-end items-center">
+                                {forecast.forecast.forecastday.map((day, index) => (
                                     <ForecastCard
+                                        key={`forecast_card_${day.date}_${index}`}
                                         dayName={dayjs(day.date).format("ddd")}
                                         maxTemp={day.day.maxtemp_c}
                                         minTemp={day.day.mintemp_c}
