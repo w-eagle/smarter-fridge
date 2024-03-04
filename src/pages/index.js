@@ -14,25 +14,24 @@ export default function HomePage() {
     const [fetchForecast, setFetchForecast] = useState(true);
 
     useEffect(() => {
-        if (!fetchCurrentWeather) {
-            return;
-        }
         const abortController = new AbortController();
         const signal = abortController.signal;
 
         (async () => {
-            console.log("fetching current weather");
-            const weather = await getCurrentWeather({ signal });
+            if (fetchCurrentWeather) {
+                console.log("fetching current weather");
+                const weather = await getCurrentWeather({ signal });
 
-            if (weather) {
-                localStorage.setItem(
-                    "nextCurrentWeatherFetch",
-                    dayjs().add(1, "hour").startOf("hour")
-                );
-                setCurrentWeather(weather);
-                setFetchCurrentWeather(false);
-            } else {
-                setCurrentWeather(false);
+                if (weather) {
+                    localStorage.setItem(
+                        "nextCurrentWeatherFetch",
+                        dayjs().add(1, "hour").startOf("hour")
+                    );
+                    setCurrentWeather(weather);
+                    setFetchCurrentWeather(false);
+                } else {
+                    setCurrentWeather(false);
+                }
             }
         })();
 
@@ -42,22 +41,21 @@ export default function HomePage() {
     }, [fetchCurrentWeather]);
 
     useEffect(() => {
-        if (!fetchForecast) {
-            return;
-        }
         const abortController = new AbortController();
         const signal = abortController.signal;
 
         (async () => {
-            console.log("fetching new forecast");
-            const _forecast = await getForecast({ signal });
+            if (fetchForecast) {
+                console.log("fetching new forecast");
+                const _forecast = await getForecast({ signal });
 
-            if (_forecast) {
-                localStorage.setItem("nextForecastFetch", dayjs().add(1, "day").startOf("day"));
-                setForecast(_forecast);
-                setFetchForecast(false);
-            } else {
-                setForecast(false);
+                if (_forecast) {
+                    localStorage.setItem("nextForecastFetch", dayjs().add(1, "day").startOf("day"));
+                    setForecast(_forecast);
+                    setFetchForecast(false);
+                } else {
+                    setForecast(false);
+                }
             }
         })();
 
@@ -71,17 +69,20 @@ export default function HomePage() {
             console.log("running interval");
             const nextCurrentWeatherFetchDate = localStorage.getItem("nextCurrentWeatherFetch");
             const nextForecastFetchDate = localStorage.getItem("nextForecastFetch");
+
             if (
-                !nextCurrentWeatherFetchDate ||
-                dayjs().isAfter(dayjs(nextCurrentWeatherFetchDate)) ||
-                !currentWeather
+                !fetchCurrentWeather &&
+                (!nextCurrentWeatherFetchDate ||
+                    dayjs().isAfter(dayjs(nextCurrentWeatherFetchDate)) ||
+                    !currentWeather)
             ) {
                 setFetchCurrentWeather(true);
             }
             if (
-                !nextForecastFetchDate ||
-                dayjs().isAfter(dayjs(nextForecastFetchDate)) ||
-                !forecast
+                !fetchForecast &&
+                (!nextForecastFetchDate ||
+                    dayjs().isAfter(dayjs(nextForecastFetchDate)) ||
+                    !forecast)
             ) {
                 setFetchForecast(true);
             }

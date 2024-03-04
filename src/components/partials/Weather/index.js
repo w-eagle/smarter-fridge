@@ -12,8 +12,6 @@ import moonsetIcon from ".././../../../public/moonset.svg";
 const getTitle = (selectedDate) => {
     const today = dayjs().format("YYYY-MM-DD");
     const tomorrow = dayjs().add(1, "day").format("YYYY-MM-DD");
-    const afterTomorrow = dayjs().add(2, "day").format("YYYY-MM-DD");
-    console.log("the date", selectedDate, today);
 
     if (selectedDate === today) {
         return "Today";

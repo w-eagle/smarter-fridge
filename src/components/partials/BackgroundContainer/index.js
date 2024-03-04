@@ -48,20 +48,78 @@ const getAstroInfo = (forecast) => {
     };
 };
 
+const getAmountOfClouds = (weather) => {
+    const lightClouds = [
+        "Partly cloudy",
+        "Patchy rain possible",
+        "Patchy snow possible",
+        "Patchy sleet possible",
+        "Patchy freezing drizzle possible",
+        "Patchy light drizzle",
+        "Light drizzle",
+        "Freezing drizzle",
+        "Patchy light rain",
+        "Light rain",
+        "Light freezing rain",
+        "Light sleet",
+        "Patchy light snow",
+        "Light rain shower",
+        "Light snow",
+        "Light sleet showers",
+        "Light snow showers",
+        "Light showers of ice pellets",
+        "Patchy light rain with thunder",
+        "Patchy light snow with thunder"
+    ];
+    const moderateClouds = [
+        "Cloudy",
+        "Patchy moderate snow",
+        "Ice pellets",
+        "Moderate or heavy freezing rain",
+        "Moderate rain at times",
+        "Moderate rain",
+        "Moderate snow",
+        "Moderate or heavy rain shower",
+        "Moderate or heavy sleet showers",
+        "Moderate or heavy snow showers",
+        "Moderate or heavy showers of ice pellets",
+        "Moderate or heavy rain with thunder",
+        "Moderate or heavy snow with thunder",
+        "Moderate or heavy sleet"
+    ];
+    const heavyClouds = [
+        "Overcast",
+        "Heavy freezing drizzle",
+        "Heavy rain at times",
+        "Heavy rain",
+        "Patchy heavy snow",
+        "Torrential rain shower",
+        "Heavy snow"
+    ];
+
+    if (lightClouds.includes(weather)) {
+        return 1;
+    }
+    if (moderateClouds.includes(weather)) {
+        return 2;
+    }
+    if (heavyClouds.includes(weather)) {
+        return 3;
+    }
+    return 0;
+};
+
 export const BackgroundContainer = ({ currentWeather, forecast }) => {
     const [isDay, setDay] = useState(false);
     const [isMoonVisible, showMoon] = useState(false);
     const [astroInfo, setAstroInfo] = useState(getAstroInfo(forecast));
-    const [weatherConditions, setWeatherConditions] = useState();
     const [shouldShowSunrise, setShowingSunrise] = useState(false);
+    const weatherConditions = currentWeather.current.condition.text;
+    const amountOfClouds = getAmountOfClouds(weatherConditions);
 
     useEffect(() => {
         setAstroInfo(getAstroInfo(forecast));
     }, [forecast]);
-
-    useEffect(() => {
-        setWeatherConditions(currentWeather);
-    }, [currentWeather]);
 
     useEffect(() => {
         const int = setInterval(() => {
@@ -181,9 +239,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
             </div>
             <div className="z-[50] absolute top-0 left-0 w-full h-[200px]">
                 <div className="w-full h-full relative">
-                    {weatherConditions.current.condition.text.toLowerCase() === "cloudy" ||
-                    weatherConditions.current.condition.text.toLowerCase() === "overcast" ||
-                    weatherConditions.current.condition.text.toLowerCase() === "partly cloudy" ? (
+                    {amountOfClouds >= 1 ? (
                         <>
                             <img className="absolute top-12 left-[85%]" src={cloud5.src} />
                             <img className="absolute top-10 left-[15%]" src={cloud3.src} />
@@ -191,8 +247,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                         </>
                     ) : null}
 
-                    {weatherConditions.current.condition.text.toLowerCase() === "cloudy" ||
-                    weatherConditions.current.condition.text.toLowerCase() === "overcast" ? (
+                    {amountOfClouds >= 2 ? (
                         <>
                             <img className="absolute top-24 left-[23%]" src={cloud6.src} />
                             <img className="absolute top-20 left-[75%]" src={cloud8.src} />
@@ -200,7 +255,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                         </>
                     ) : null}
 
-                    {weatherConditions.current.condition.text.toLowerCase() === "overcast" ? (
+                    {amountOfClouds >= 3 ? (
                         <>
                             <img className="absolute top-4 left-[65%]" src={cloud4.src} />
                             <img className="absolute top-4 left-[53%]" src={cloud7.src} />
