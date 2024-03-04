@@ -3,59 +3,90 @@
 import { useState, useEffect, useRef } from "react";
 import { BackgroundContainer, WidgetContainer } from "../components/partials/index";
 import { ModalProvider } from "@/context/modalContext";
+import { getCurrentWeather } from "@/actions/getCurrentWeather";
+import { getForecast } from "@/actions/getForecast";
+import dayjs from "dayjs";
 
 export default function HomePage() {
     const [forecast, setForecast] = useState(false);
     const [currentWeather, setCurrentWeather] = useState(false);
+    const [fetchCurrentWeather, setFetchCurrentWeather] = useState(true);
+    const [fetchForecast, setFetchForecast] = useState(true);
 
     useEffect(() => {
+        if (!fetchCurrentWeather) {
+            return;
+        }
         const abortController = new AbortController();
         const signal = abortController.signal;
 
         (async () => {
-            const weather = await fetch("/api/weather", { signal });
+            console.log("fetching current weather");
+            const weather = await getCurrentWeather({ signal });
 
-            if (!signal.aborted) {
-                if (weather.ok) {
-                    const json = await weather.json();
-                    console.log(json);
-
-                    setCurrentWeather(json);
-                } else {
-                    console.error(`HTTP error! Status: ${weather.status}`);
-                    setCurrentWeather(false);
-                }
+            if (weather) {
+                localStorage.setItem(
+                    "nextCurrentWeatherFetch",
+                    dayjs().add(1, "hour").startOf("hour")
+                );
+                setCurrentWeather(weather);
+                setFetchCurrentWeather(false);
+            } else {
+                setCurrentWeather(false);
             }
         })();
 
         return () => {
             abortController.abort();
         };
-    }, []);
+    }, [fetchCurrentWeather]);
 
     useEffect(() => {
+        if (!fetchForecast) {
+            return;
+        }
         const abortController = new AbortController();
         const signal = abortController.signal;
 
         (async () => {
-            const forecast = await fetch("/api/forecast", { signal });
+            console.log("fetching new forecast");
+            const _forecast = await getForecast({ signal });
 
-            if (!signal.aborted) {
-                if (forecast.ok) {
-                    const json = await forecast.json();
-                    console.log(json);
-
-                    setForecast(json);
-                } else {
-                    console.error(`HTTP error! Status: ${forecast.status}`);
-                    setForecast(false);
-                }
+            if (_forecast) {
+                localStorage.setItem("nextForecastFetch", dayjs().add(1, "day").startOf("day"));
+                setForecast(_forecast);
+                setFetchForecast(false);
+            } else {
+                setForecast(false);
             }
         })();
 
         return () => {
             abortController.abort();
         };
+    }, [fetchForecast]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            console.log("running interval");
+            const nextCurrentWeatherFetchDate = localStorage.getItem("nextCurrentWeatherFetch");
+            const nextForecastFetchDate = localStorage.getItem("nextForecastFetch");
+            if (
+                !nextCurrentWeatherFetchDate ||
+                dayjs().isAfter(dayjs(nextCurrentWeatherFetchDate)) ||
+                !currentWeather
+            ) {
+                setFetchCurrentWeather(true);
+            }
+            if (
+                !nextForecastFetchDate ||
+                dayjs().isAfter(dayjs(nextForecastFetchDate)) ||
+                !forecast
+            ) {
+                setFetchForecast(true);
+            }
+        }, 60000);
+        return () => clearInterval(interval);
     }, []);
 
     const screenRef = useRef(null);
@@ -63,7 +94,9 @@ export default function HomePage() {
     return (
         <main ref={screenRef} className="w-[100vw] h-[100vh] relative">
             <ModalProvider>
-                <BackgroundContainer currentWeather={currentWeather} forecast={forecast} />
+                {!currentWeather || !forecast ? null : (
+                    <BackgroundContainer currentWeather={currentWeather} forecast={forecast} />
+                )}
                 <WidgetContainer
                     currentWeather={currentWeather}
                     forecast={forecast}

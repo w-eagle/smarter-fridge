@@ -1,19 +1,34 @@
+"use client";
+
 import { Clock } from "../Clock";
 import { Shortcuts } from "../Shortcuts";
 import { Weather } from "../Weather";
-import { Notes, ModalLightbox, NoteForm, AlertsSelector, TimerForm } from "../../dummy/";
+import {
+    Notes,
+    ModalLightbox,
+    NoteForm,
+    AlertsSelector,
+    TimerForm,
+    TimersAndReminders
+} from "../../dummy/";
 import styles from "./styles.module.css";
 import fullScreenIcon from "../../../../public/fullScreen.png";
 import timerIcon from "../../../../public/timer.svg";
 import bellIcon from "../../../../public/bell.svg";
 import eggIcon from "../../../../public/An_egg.png";
 import friesIcon from "../../../../public/Fries.png";
+import sweetPotIcon from "../../../../public/sweet_pot.jpg";
+import bakedPotIcon from "../../../../public/baked_pota.jpg";
+import pressurePotIcon from "../../../../public/pressure_pot.jpg";
+import roastIcon from "../../../../public/roast.jpg";
 import { useState } from "react";
 import { useModalContext } from "@/context/modalContext";
+import dayjs from "dayjs";
 
 export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
     const [showModal, closeModal] = useModalContext();
     const [notes, setNotes] = useState([]);
+    const [timers, setTimers] = useState([]);
 
     const enterFullscreen = () => {
         const elem = screenRef.current;
@@ -56,13 +71,42 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
         closeModal();
     };
 
+    const createTimer = (name, time) => {
+        const now = dayjs();
+        const nowWithAddedHours = now.add(time.hours, "hour");
+        const nowWithAddedMinutes = nowWithAddedHours.add(time.minutes, "minute");
+        const nowWithAddedSeconds = nowWithAddedMinutes.add(time.seconds, "second");
+
+        setTimers((currentTmers) => [
+            {
+                name,
+                startTime: now,
+                endTime: nowWithAddedSeconds
+            },
+            ...currentTmers
+        ]);
+        closeModal();
+    };
+
     const timerTemplates = [
-        { name: "Egg", icon: eggIcon.src, time: "00:10:00" },
-        { name: "Fries", icon: friesIcon.src, time: "00:25:00" },
-        { name: "Sweet potatoe", icon: "", time: "00:20:00" },
-        { name: "Baked potatoe", icon: "", time: "1:00:00" },
-        { name: "Pressure pot", icon: "", time: "00:25:00" },
-        { name: "Roast", icon: "", time: "00:45:00" }
+        { name: "Egg", icon: eggIcon.src, time: { hours: 0, minutes: 10, seconds: 0 } },
+        {
+            name: "Sweet potatoe",
+            icon: sweetPotIcon.src,
+            time: { hours: 0, minutes: 20, seconds: 0 }
+        },
+        { name: "Fries", icon: friesIcon.src, time: { hours: 0, minutes: 25, seconds: 0 } },
+        {
+            name: "Pressure pot",
+            icon: pressurePotIcon.src,
+            time: { hours: 0, minutes: 25, seconds: 0 }
+        },
+        { name: "Roast", icon: roastIcon.src, time: { hours: 0, minutes: 45, seconds: 0 } },
+        {
+            name: "Baked potatoe",
+            icon: bakedPotIcon.src,
+            time: { hours: 1, minutes: 0, seconds: 0 }
+        }
     ];
 
     const alertOptions = [
@@ -73,7 +117,7 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
                 showModal(
                     <ModalLightbox handleClickAway={closeModal}>
                         <TimerForm
-                            handleSubmit={createNote}
+                            handleSubmit={createTimer}
                             handleCancel={closeModal}
                             templates={timerTemplates}
                         />
@@ -90,8 +134,6 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
         }
     ];
 
-    console.log(timerIcon);
-
     return (
         <div className={styles.container}>
             <div className={styles.widgetContainerLeft}>
@@ -103,7 +145,9 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
             <div className={styles.widgetContainerLeft}>
                 <Notes notes={notes} handleNoteRemove={handleNoteRemove} />
             </div>
-            <div className={styles.widgetContainerRight}></div>
+            <div className={styles.widgetContainerRight}>
+                {timers?.length > 0 ? <TimersAndReminders timers={timers} /> : null}
+            </div>
             <div className={`${styles.lastRow} ${styles.widgetContainerLeft}`}>
                 <Shortcuts />
             </div>
@@ -114,7 +158,7 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
                 <img src={fullScreenIcon.src} />
             </button>
             <button
-                className="widgetBackground text-white text-3xl w-[40px] h-[60px] p-[5px] animate rounded-r-lg backdrop-blur-sm border-r border-t border-b border-slate-600 cursor-pointer bottom-[400px] left-0 absolute z-[100]"
+                className="widgetBackground text-white text-3xl w-[40px] h-[60px] p-[5px] animate rounded-r-lg backdrop-blur-sm border-r border-t border-b border-slate-600 cursor-pointer top-[60%] left-0 absolute z-[100]"
                 onClick={() => {
                     showModal(
                         <ModalLightbox handleClickAway={closeModal}>
@@ -126,7 +170,7 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
                 +
             </button>
             <button
-                className="widgetBackground text-white text-3xl w-[40px] h-[60px] p-[5px] animate rounded-l-lg backdrop-blur-sm border-l border-t border-b border-slate-600 cursor-pointer bottom-[400px] right-0 absolute z-[100]"
+                className="widgetBackground text-white text-3xl w-[40px] h-[60px] p-[5px] animate rounded-l-lg backdrop-blur-sm border-l border-t border-b border-slate-600 cursor-pointer top-[60%] right-0 absolute z-[100]"
                 onClick={() => {
                     showModal(
                         <ModalLightbox handleClickAway={closeModal}>

@@ -49,9 +49,6 @@ const getAstroInfo = (forecast) => {
 };
 
 export const BackgroundContainer = ({ currentWeather, forecast }) => {
-    if (!currentWeather || !forecast) {
-        return null;
-    }
     const [isDay, setDay] = useState(false);
     const [isMoonVisible, showMoon] = useState(false);
     const [astroInfo, setAstroInfo] = useState(getAstroInfo(forecast));

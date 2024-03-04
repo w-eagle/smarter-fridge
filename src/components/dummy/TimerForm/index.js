@@ -17,13 +17,18 @@ export const TimerForm = ({ templates, handleCancel, handleSubmit }) => {
                     <button
                         key={`shortcut_${template.name}_${index}`}
                         className="w-[80px] px-[10px] pb-[10px] text-center inline-block w-2/12"
+                        onClick={() => handleSubmit(template.name, template.time)}
                     >
                         <p className="mb-[0] h-[50px]">{template.name}</p>
                         <img
                             className="p-[5px] object-cover w-[60px] mx-auto h-[60px] rounded-3xl"
                             src={template.icon}
                         />
-                        <p className="text-xs">{template.time}</p>
+                        <p className="text-xs">
+                            {template.time.hours.toString().padStart(2, "0")}:
+                            {template.time.minutes.toString().padStart(2, "0")}:
+                            {template.time.seconds.toString().padStart(2, "0")}
+                        </p>
                     </button>
                 ))}
             </div>

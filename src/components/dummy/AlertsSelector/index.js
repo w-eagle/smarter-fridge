@@ -12,7 +12,6 @@ export const AlertsSelector = ({ alerts }) => (
                     className="w-[80px] mx-[10px] text-center"
                     onClick={alert.handleClick}
                 >
-                    {console.log(alert)}
                     <img className="p-[5px] w-[80px] h-[80px] rounded-3xl" src={alert.icon} />
                     <p>{alert.label}</p>
                 </button>
