@@ -11,7 +11,7 @@ export const NoteForm = ({ handleCancel, handleSubmit }) => {
             <p>Type a note</p>
             <textarea
                 onChange={(e) => setNote(e.target.value)}
-                className="widgetBackground w-full h-[240px] rounded-lg px-4 py-2 mt-[10px]"
+                className="widgetDarkBackground w-full h-[240px] rounded-lg px-4 py-2 mt-[10px]"
             />
             <div className="w-full flex justify-between mt-[10px]">
                 <button onClick={handleCancel} className="bg-red-600 rounded-lg px-4 py-1">

@@ -21,7 +21,7 @@ import sweetPotIcon from "../../../../public/sweet_pot.jpg";
 import bakedPotIcon from "../../../../public/baked_pota.jpg";
 import pressurePotIcon from "../../../../public/pressure_pot.jpg";
 import roastIcon from "../../../../public/roast.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useModalContext } from "@/context/modalContext";
 import dayjs from "dayjs";
 
@@ -29,6 +29,14 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
     const [showModal, closeModal] = useModalContext();
     const [notes, setNotes] = useState([]);
     const [timers, setTimers] = useState([]);
+
+    useEffect(() => {
+        const localStorageNotes = localStorage.getItem("notes");
+        if (localStorageNotes) {
+            return setNotes(JSON.parse(localStorageNotes));
+        }
+        setNotes([]);
+    }, []);
 
     const enterFullscreen = () => {
         const elem = screenRef.current;
@@ -61,11 +69,19 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
 
     const handleNoteRemove = (note) => {
         const allNotes = [...notes.filter((n) => n !== note)];
+        localStorage.setItem("notes", JSON.stringify(allNotes));
         setNotes(allNotes);
     };
 
     const createNote = (note) => {
         if (note) {
+            const localStorageNotes = localStorage.getItem("notes");
+            const parsedNotes = localStorageNotes ? JSON.parse(localStorageNotes) : [];
+            console.log("wyloguj kurwe", localStorageNotes);
+
+            const newNotes = parsedNotes ? [...parsedNotes, note] : [note];
+            localStorage.setItem("notes", JSON.stringify(newNotes));
+
             setNotes((n) => [...n, note]);
         }
         closeModal();
@@ -143,7 +159,9 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
                 <Weather currentWeather={currentWeather} forecast={forecast} />
             </div>
             <div className={styles.widgetContainerLeft}>
-                <Notes notes={notes} handleNoteRemove={handleNoteRemove} />
+                {!notes || notes.length <= 0 ? null : (
+                    <Notes notes={notes} handleNoteRemove={handleNoteRemove} />
+                )}
             </div>
             <div className={styles.widgetContainerRight}>
                 {timers?.length > 0 ? <TimersAndReminders timers={timers} /> : null}

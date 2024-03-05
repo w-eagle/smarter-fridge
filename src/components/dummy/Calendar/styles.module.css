@@ -11,10 +11,9 @@
     min-height: 175px;
     width: 100%;
     text-align: center;
-    margin-top: 5px;
-    font-size: 12px;
+    margin-top: 15px;
+    font-size: 16px;
     color: white;
-    border-spacing: 0 2px;
 }
 
 .todayCell {
@@ -27,17 +26,18 @@
     height: 25px;
     width: 14.25%;
     cursor: pointer;
+    font-weight: 500;
 }
 
 .rowCell {
     height: 25px;
     width: 14.25%;
-    font-weight: 400;
+    font-weight: 300;
 }
 
 .selectedStartCellWithoutEndDate {
-    color: white;
-    background-color: rgb(3 105 161);
+    color: black;
+    background-color: rgb(255 255 255);
     border-radius: 5px;
 }
 

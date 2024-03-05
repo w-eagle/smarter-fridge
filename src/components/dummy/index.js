@@ -9,3 +9,4 @@ export { NoteForm } from "./NoteForm";
 export { AlertsSelector } from "./AlertsSelector";
 export { TimerForm } from "./TimerForm";
 export { TimersAndReminders } from "./TimersAndReminders";
+export { EventList } from "./EventList";

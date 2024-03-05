@@ -50,7 +50,7 @@ export const Calendar = ({
 
                     <tbody>
                         {numberOfRows.map((_, rowIndex) => (
-                            <tr key={`calendarRow_${displayedMonth}_${rowIndex}`}>
+                            <tr className="mt-2" key={`calendarRow_${displayedMonth}_${rowIndex}`}>
                                 {numberOfDays.map((_, dayIndex) => {
                                     // empty cell
                                     if (rowIndex === 0 && dayIndex < firstDay) {

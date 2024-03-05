@@ -20,8 +20,13 @@
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+.widgetDarkBackground {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 /* Track */

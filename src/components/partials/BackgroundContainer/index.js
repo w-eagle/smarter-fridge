@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import styles from "./styles.module.css";
@@ -168,7 +166,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
             } else if (now.isAfter(sunset) && isDay) {
                 return setDay(false);
             }
-        }, [1000 * 60]);
+        }, 1000 * 60);
 
         return () => clearInterval(int);
     }, []);

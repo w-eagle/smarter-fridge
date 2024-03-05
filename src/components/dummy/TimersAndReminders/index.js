@@ -22,12 +22,10 @@ export const TimersAndReminders = ({ timers }) => {
                 };
             });
             setDisplayedTimers(_timers);
-        }, [1000]);
+        }, 1000);
 
         return () => clearInterval(timer);
     }, [timers]);
-
-    console.log("displayed timers", displayedTimers);
 
     return (
         <div
