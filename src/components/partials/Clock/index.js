@@ -39,7 +39,7 @@ export const Clock = () => {
                 <div className={`${expanded ? "w-1/3" : "w-full"} animated h-full overflow-hidden`}>
                     <div className={`flex flex-col items-center animated`}>
                         <span className="text-[40px]">{currentTime.format("HH:mm")}</span>
-                        <p className="text-2xl">{currentTime.format("ddd, YY MMMM")}</p>
+                        <p className="text-2xl">{currentTime.format("ddd, DD MMMM")}</p>
                     </div>
                     <div
                         className={`${
