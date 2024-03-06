@@ -12,6 +12,7 @@ export default function HomePage() {
     const [fetchForecast, setFetchForecast] = useState(true);
 
     useEffect(() => {
+        console.log("enters fetching weather");
         const abortController = new AbortController();
         const signal = abortController.signal;
 
@@ -68,12 +69,25 @@ export default function HomePage() {
             const nextCurrentWeatherFetchDate = localStorage.getItem("nextCurrentWeatherFetch");
             const nextForecastFetchDate = localStorage.getItem("nextForecastFetch");
 
+            console.log(
+                fetchCurrentWeather,
+                nextCurrentWeatherFetchDate,
+                dayjs().isAfter(dayjs(nextCurrentWeatherFetchDate)),
+                currentWeather,
+                "result:",
+                !fetchCurrentWeather &&
+                    (!nextCurrentWeatherFetchDate ||
+                        dayjs().isAfter(dayjs(nextCurrentWeatherFetchDate)) ||
+                        !currentWeather)
+            );
+
             if (
                 !fetchCurrentWeather &&
                 (!nextCurrentWeatherFetchDate ||
                     dayjs().isAfter(dayjs(nextCurrentWeatherFetchDate)) ||
                     !currentWeather)
             ) {
+                console.log("enters setting flag");
                 setFetchCurrentWeather(true);
             }
             if (
@@ -84,7 +98,7 @@ export default function HomePage() {
             ) {
                 setFetchForecast(true);
             }
-        }, 60000);
+        }, 1000);
         return () => clearInterval(interval);
     }, []);
 
