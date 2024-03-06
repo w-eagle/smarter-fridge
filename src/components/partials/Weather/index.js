@@ -82,7 +82,7 @@ export const Weather = ({ currentWeather, forecast }) => {
         (day) => day.date === dayjs().format("YYYY-MM-DD")
     ).astro;
 
-    const timeout = setTimeout(() => (expanded ? expand(false) : null), 1000 * 60 * 99);
+    const timeout = setTimeout(() => (expanded ? expand(false) : null), 1000 * 60 * 2);
 
     return (
         <div

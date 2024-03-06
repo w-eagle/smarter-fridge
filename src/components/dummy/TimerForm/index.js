@@ -17,7 +17,7 @@ export const TimerForm = ({ templates, handleCancel, handleSubmit }) => {
                     <button
                         key={`shortcut_${template.name}_${index}`}
                         className="w-[80px] px-[10px] pb-[10px] text-center inline-block w-2/12"
-                        onClick={() => handleSubmit(template.name, template.time)}
+                        onClick={() => handleSubmit(template.name, template.time, template.icon)}
                     >
                         <p className="mb-[0] h-[50px]">{template.name}</p>
                         <img
@@ -127,8 +127,7 @@ export const TimerForm = ({ templates, handleCancel, handleSubmit }) => {
                 </button>
                 <button
                     onClick={() => {
-                        console.log(timerName, timer);
-                        // handleSubmit({ timerName, timer });
+                        handleSubmit(timerName, timer);
                     }}
                     className="bg-green-600 rounded-lg px-4 py-1"
                 >

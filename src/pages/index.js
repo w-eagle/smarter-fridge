@@ -16,8 +16,8 @@ export default function HomePage() {
         const signal = abortController.signal;
 
         (async () => {
-            if (fetchCurrentWeather) {
-                console.warn("fetching current weather");
+            if (fetchCurrentWeather || !currentWeather) {
+                console.warn("fetching current weather", dayjs().format("HH:mm DD/MM/YYYY"));
                 const weather = await getCurrentWeather({ signal });
 
                 if (weather) {
@@ -43,7 +43,7 @@ export default function HomePage() {
         const signal = abortController.signal;
 
         (async () => {
-            if (fetchForecast) {
+            if (fetchForecast || !forecast) {
                 console.warn("fetching new forecast");
                 const _forecast = await getForecast({ signal });
 
@@ -70,16 +70,11 @@ export default function HomePage() {
 
             if (
                 !nextCurrentWeatherFetchDate ||
-                dayjs().isAfter(dayjs(nextCurrentWeatherFetchDate)) ||
-                !currentWeather
+                dayjs().isAfter(dayjs(nextCurrentWeatherFetchDate))
             ) {
                 setFetchCurrentWeather(true);
             }
-            if (
-                !nextForecastFetchDate ||
-                dayjs().isAfter(dayjs(nextForecastFetchDate)) ||
-                !forecast
-            ) {
+            if (!nextForecastFetchDate || dayjs().isAfter(dayjs(nextForecastFetchDate))) {
                 setFetchForecast(true);
             }
         }, 60000);

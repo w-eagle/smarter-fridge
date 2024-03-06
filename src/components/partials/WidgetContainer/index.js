@@ -7,7 +7,8 @@ import {
     NoteForm,
     AlertsSelector,
     TimerForm,
-    TimersAndReminders
+    TimersAndReminders,
+    TimerEllapsed
 } from "../../dummy/";
 import styles from "./styles.module.css";
 import fullScreenIcon from "../../../../public/fullScreen.png";
@@ -75,7 +76,6 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
         if (note) {
             const localStorageNotes = localStorage.getItem("notes");
             const parsedNotes = localStorageNotes ? JSON.parse(localStorageNotes) : [];
-            console.log("wyloguj kurwe", localStorageNotes);
 
             const newNotes = parsedNotes ? [...parsedNotes, note] : [note];
             localStorage.setItem("notes", JSON.stringify(newNotes));
@@ -85,7 +85,7 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
         closeModal();
     };
 
-    const createTimer = (name, time) => {
+    const createTimer = (name, time, icon) => {
         const now = dayjs();
         const nowWithAddedHours = now.add(time.hours, "hour");
         const nowWithAddedMinutes = nowWithAddedHours.add(time.minutes, "minute");
@@ -94,7 +94,9 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
         setTimers((currentTmers) => [
             {
                 name,
+                id: Date.now(),
                 startTime: now,
+                icon: icon ? icon : "",
                 endTime: nowWithAddedSeconds
             },
             ...currentTmers
@@ -103,6 +105,7 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
     };
 
     const timerTemplates = [
+        { name: "Test", icon: eggIcon.src, time: { hours: 0, minutes: 0, seconds: 10 } },
         { name: "Egg", icon: eggIcon.src, time: { hours: 0, minutes: 10, seconds: 0 } },
         {
             name: "Sweet potatoe",
@@ -148,6 +151,23 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
         }
     ];
 
+    const handleTimerRemove = (timer) => {
+        const newTimers = [...timers].filter((t) => t.id !== timer.id);
+        setTimers(newTimers);
+    };
+
+    const handleTimerEnd = (timer) => {
+        showModal(
+            <ModalLightbox handleClickAway={closeModal}>
+                <TimerEllapsed
+                    closeModal={closeModal}
+                    timer={timer}
+                    handleTimerRemove={handleTimerRemove}
+                />
+            </ModalLightbox>
+        );
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.widgetContainerLeft}>
@@ -164,7 +184,13 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
                 )}
             </div>
             <div className={styles.widgetContainerRight}>
-                {timers?.length > 0 ? <TimersAndReminders timers={timers} /> : null}
+                {timers?.length > 0 ? (
+                    <TimersAndReminders
+                        timers={timers}
+                        handleTimerEnd={handleTimerEnd}
+                        handleTimerRemove={handleTimerRemove}
+                    />
+                ) : null}
             </div>
             <div className={`${styles.lastRow} ${styles.widgetContainerLeft}`}>
                 <Shortcuts />

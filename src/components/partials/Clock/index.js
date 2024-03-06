@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import styles from "./styles.module.css";
+import { useEffect, useState, useRef } from "react";
 
 import dayjs from "dayjs";
 import { Calendar, CalendarHeader, EventList } from "../../dummy";
@@ -9,6 +8,7 @@ export const Clock = () => {
     const [expanded, expand] = useState(false);
     const [displayedCalDate, setDisplayedCalDate] = useState(dayjs());
     const [selectedCalendarDate, selectCalendarDate] = useState(dayjs());
+    const [playAudio, setPlayAudio] = useState(false);
 
     useEffect(() => {
         const clock = setInterval(() => {
@@ -21,10 +21,14 @@ export const Clock = () => {
     useEffect(() => {
         const clockTimeout = setTimeout(() => {
             if (expanded) return expand(false);
-        }, 1000 * 60);
+        }, 1000 * 60 * 2);
 
         return () => clearTimeout(clockTimeout);
     }, [expanded]);
+
+    useEffect(() => {
+        setPlayAudio(true);
+    }, []);
 
     return (
         <div

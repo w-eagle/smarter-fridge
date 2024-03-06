@@ -1,0 +1,18 @@
+.bellAnimation {
+    animation: ring 0.4s infinite;
+}
+
+@keyframes ring {
+    0% {
+        transform: rotate(0);
+    }
+    10% {
+        transform: rotate(10deg);
+    }
+    20% {
+        transform: rotate(-10deg);
+    }
+    30% {
+        transform: rotate(0);
+    }
+}
