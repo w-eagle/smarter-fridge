@@ -12,13 +12,12 @@ export default function HomePage() {
     const [fetchForecast, setFetchForecast] = useState(true);
 
     useEffect(() => {
-        console.log("enters fetching weather use effect");
         const abortController = new AbortController();
         const signal = abortController.signal;
 
         (async () => {
             if (fetchCurrentWeather) {
-                console.log("fetching current weather");
+                console.warn("fetching current weather");
                 const weather = await getCurrentWeather({ signal });
 
                 if (weather) {
@@ -26,9 +25,8 @@ export default function HomePage() {
                         "nextCurrentWeatherFetch",
                         dayjs().add(1, "hour").startOf("hour")
                     );
-                    console.log("setting next fetch time");
                     setCurrentWeather(weather);
-                    setCurrentWeather(false);
+                    setFetchCurrentWeather(false);
                 } else {
                     setCurrentWeather(false);
                 }
@@ -41,18 +39,16 @@ export default function HomePage() {
     }, [fetchCurrentWeather]);
 
     useEffect(() => {
-        console.log("enters fetching new forecast use effect");
         const abortController = new AbortController();
         const signal = abortController.signal;
 
         (async () => {
             if (fetchForecast) {
-                console.log("fetching new forecast");
+                console.warn("fetching new forecast");
                 const _forecast = await getForecast({ signal });
 
                 if (_forecast) {
                     localStorage.setItem("nextForecastFetch", dayjs().add(1, "day").startOf("day"));
-                    console.log("setting next fetch time");
                     setForecast(_forecast);
                     setFetchForecast(false);
                 } else {
@@ -77,7 +73,6 @@ export default function HomePage() {
                 dayjs().isAfter(dayjs(nextCurrentWeatherFetchDate)) ||
                 !currentWeather
             ) {
-                console.log("enters flag in condition");
                 setFetchCurrentWeather(true);
             }
             if (
