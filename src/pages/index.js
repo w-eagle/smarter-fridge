@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect, useRef } from "react";
 import { BackgroundContainer, WidgetContainer } from "../components/partials/index";
 import { ModalProvider } from "@/context/modalContext";

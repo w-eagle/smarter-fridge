@@ -1,5 +1,3 @@
-"use client";
-
 import { Clock } from "../Clock";
 import { Shortcuts } from "../Shortcuts";
 import { Weather } from "../Weather";
