@@ -4,7 +4,7 @@ export default async function GET(req, res) {
     );
 
     const json = await astronomy.json();
-    console.log("astronomy \n\n\n\n\n\n", json);
+    console.log("getting astronomy", new Date());
 
     res.status(200).send(json);
 }

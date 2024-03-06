@@ -154,7 +154,9 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
                 <Clock />
             </div>
             <div className={styles.widgetContainerRight}>
-                <Weather currentWeather={currentWeather} forecast={forecast} />
+                {!currentWeather || !forecast ? null : (
+                    <Weather currentWeather={currentWeather} forecast={forecast} />
+                )}
             </div>
             <div className={styles.widgetContainerLeft}>
                 {!notes || notes.length <= 0 ? null : (
