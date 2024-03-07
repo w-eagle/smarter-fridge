@@ -108,8 +108,7 @@ const getAmountOfClouds = (weather) => {
 };
 
 export const BackgroundContainer = ({ currentWeather, forecast }) => {
-    const [isDay, setDay] = useState(false);
-    const [isMoonVisible, showMoon] = useState(false);
+    const [isDay, setDay] = useState(true);
     const [astroInfo, setAstroInfo] = useState(getAstroInfo(forecast));
     const [shouldShowSunrise, setShowingSunrise] = useState(false);
     const weatherConditions = currentWeather.current.condition.text;
@@ -127,8 +126,6 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
 
             const sunrise = dayjs(`${todaysAstro.date} ${todaysAstro.astro.sunrise}`);
             const sunset = dayjs(`${todaysAstro.date} ${todaysAstro.astro.sunset}`);
-            const moonrise = dayjs(`${todaysAstro.date} ${todaysAstro.astro.moonrise}`);
-            const moonset = dayjs(`${todaysAstro.date} ${todaysAstro.astro.moonset}`);
 
             const now = dayjs();
 
@@ -141,29 +138,9 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                 setShowingSunrise(true);
             }
 
-            if (!isMoonVisible && now.isAfter(moonrise) && now.isBefore(moonset)) {
-                showMoon(true);
-            }
-
-            if (isMoonVisible && now.isBefore(moonrise) && now.isAfter(moonset)) {
-                showMoon(false);
-            }
-
-            if (
-                isMoonVisible &&
-                now.hour() <= moonrise.hour() &&
-                now.minute() <= moonrise.minute() &&
-                now.hour() < moonset.hour() &&
-                now.minute() < moonset.minute()
-            ) {
-                showMoon(true);
-            }
-
             if (now.isAfter(sunrise) && now.isBefore(sunset) && !isDay) {
                 return setDay(true);
-            } else if (now.isBefore(sunrise) && isDay) {
-                return setDay(false);
-            } else if (now.isAfter(sunset) && isDay) {
+            } else {
                 return setDay(false);
             }
         }, 1000 * 60);
@@ -218,7 +195,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
             ></div>
             <div
                 style={{ animationDuration: astroInfo.moonTimeOnSkyInSeconds }}
-                className={`${isMoonVisible ? styles.moon : styles.invisible}`}
+                className={`${!isDay ? styles.moon : styles.invisible}`}
             ></div>
             <div
                 style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
@@ -235,6 +212,25 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                     </div>
                 </div>
             </div>
+
+            {amountOfClouds >= 1 ? (
+                <div
+                    className={`${styles.greyOverlay} z-[70] absolute top-0 left-0 w-full h-full`}
+                />
+            ) : null}
+
+            {amountOfClouds >= 2 ? (
+                <div
+                    className={`${styles.greyOverlay} z-[70] absolute top-0 left-0 w-full h-full`}
+                />
+            ) : null}
+
+            {amountOfClouds >= 3 ? (
+                <div
+                    className={`${styles.greyOverlay} z-[70] absolute top-0 left-0 w-full h-full`}
+                />
+            ) : null}
+
             <div className="z-[50] absolute top-0 left-0 w-full h-[200px]">
                 <div className="w-full h-full relative">
                     {amountOfClouds >= 1 ? (
@@ -254,11 +250,11 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                     ) : null}
 
                     {amountOfClouds >= 3 ? (
-                        <>
+                        <div className="w-full h-full z-[200]">
                             <img className="absolute top-4 left-[65%]" src={cloud4.src} />
                             <img className="absolute top-4 left-[53%]" src={cloud7.src} />
                             <img className="absolute top-4 left-0" src={cloud1.src} />
-                        </>
+                        </div>
                     ) : null}
                 </div>
             </div>

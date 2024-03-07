@@ -6,7 +6,7 @@ export const NoteForm = ({ handleCancel, handleSubmit }) => {
     return (
         <div
             onClick={(e) => e.stopPropagation()}
-            className="text-white widgetBackground backdrop-blur-sm rounded-lg w-1/2 h-[350px] px-8 py-4"
+            className="text-white widgetDarkBackground backdrop-blur-sm rounded-lg w-1/2 h-[350px] px-8 py-4"
         >
             <p>Type a note</p>
             <textarea

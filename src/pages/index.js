@@ -90,13 +90,15 @@ export default function HomePage() {
         <main ref={screenRef} className="w-[100vw] h-[100vh] relative">
             <ModalProvider>
                 {!currentWeather || !forecast ? null : (
-                    <BackgroundContainer currentWeather={currentWeather} forecast={forecast} />
+                    <>
+                        <BackgroundContainer currentWeather={currentWeather} forecast={forecast} />
+                        <WidgetContainer
+                            currentWeather={currentWeather}
+                            forecast={forecast}
+                            screenRef={screenRef}
+                        />
+                    </>
                 )}
-                <WidgetContainer
-                    currentWeather={currentWeather}
-                    forecast={forecast}
-                    screenRef={screenRef}
-                />
             </ModalProvider>
         </main>
     );

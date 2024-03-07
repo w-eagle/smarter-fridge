@@ -31,10 +31,20 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
 
     useEffect(() => {
         const localStorageNotes = localStorage.getItem("notes");
+        const savedTimers = localStorage.getItem("timers");
+
         if (localStorageNotes) {
-            return setNotes(JSON.parse(localStorageNotes));
+            setNotes(JSON.parse(localStorageNotes));
         }
-        setNotes([]);
+        if (savedTimers) {
+            const parsedTimers = JSON.parse(savedTimers).map((t) => ({
+                ...t,
+                startTime: dayjs(t.startTime),
+                endTime: dayjs(t.endTime)
+            }));
+
+            setTimers(parsedTimers);
+        }
     }, []);
 
     const enterFullscreen = () => {
@@ -91,7 +101,7 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
         const nowWithAddedMinutes = nowWithAddedHours.add(time.minutes, "minute");
         const nowWithAddedSeconds = nowWithAddedMinutes.add(time.seconds, "second");
 
-        setTimers((currentTmers) => [
+        const newTimers = [
             {
                 name,
                 id: Date.now(),
@@ -99,8 +109,12 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
                 icon: icon ? icon : "",
                 endTime: nowWithAddedSeconds
             },
-            ...currentTmers
-        ]);
+            ...timers
+        ];
+
+        localStorage.setItem("timers", JSON.stringify(newTimers));
+
+        setTimers(newTimers);
         closeModal();
     };
 
@@ -153,6 +167,8 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
 
     const handleTimerRemove = (timer) => {
         const newTimers = [...timers].filter((t) => t.id !== timer.id);
+
+        localStorage.setItem("timers", JSON.stringify(newTimers));
         setTimers(newTimers);
     };
 

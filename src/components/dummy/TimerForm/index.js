@@ -8,7 +8,7 @@ export const TimerForm = ({ templates, handleCancel, handleSubmit }) => {
     return (
         <div
             onClick={(e) => e.stopPropagation()}
-            className="text-white widgetBackground backdrop-blur-sm rounded-lg w-1/2 h-[450px] px-8 py-4"
+            className="text-white widgetDarkBackground backdrop-blur-sm rounded-lg w-1/2 h-[450px] px-8 py-4"
         >
             <p>Select timer</p>
 
@@ -36,7 +36,7 @@ export const TimerForm = ({ templates, handleCancel, handleSubmit }) => {
             <input
                 placeholder="Name"
                 onChange={(e) => setName(e.target.value)}
-                className="widgetBackground w-full rounded-lg px-4 py-2 mt-[10px]"
+                className="widgetDarkBackground w-full rounded-lg px-4 py-2 mt-[10px]"
             />
             <div className="flex justify-center mt-[20px]">
                 <div className="text-center mx-[10px] flex flex-col items-center">

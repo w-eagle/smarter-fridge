@@ -2,11 +2,11 @@ import dayjs from "dayjs";
 import waterDrop from "../../../../public/water-drop.svg";
 
 export const WeatherByHourPanel = ({ title, forecastByHour }) => (
-    <div className="w-full">
+    <div className="w-full h-full">
         <div className="border-b mb-[10px]">
             <p className="text-xl">{title}</p>
         </div>
-        <div className="max-h-[350px] overflow-auto pr-[20px]">
+        <div className="max-h-[450px] overflow-auto pr-[20px]">
             {forecastByHour.map((weather, index) => (
                 <div
                     key={`forecast_by_hour-${title}_${weather.condition.text}_${index}`}
