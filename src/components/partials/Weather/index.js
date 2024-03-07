@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
 import { ForecastCard, WeatherByHourPanel } from "../../dummy/";
@@ -83,6 +83,8 @@ export const Weather = ({ currentWeather, forecast }) => {
     ).astro;
 
     const timeout = setTimeout(() => (expanded ? expand(false) : null), 1000 * 60 * 2);
+
+    useEffect(() => selectForecastDay(dayjs().format("YYYY-MM-DD")), [forecast]);
 
     return (
         <div

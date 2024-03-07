@@ -48,7 +48,10 @@ export default function HomePage() {
                 const _forecast = await getForecast({ signal });
 
                 if (_forecast) {
-                    localStorage.setItem("nextForecastFetch", dayjs().add(1, "day").startOf("day"));
+                    localStorage.setItem(
+                        "nextForecastFetch",
+                        dayjs().add(1, "hour").startOf("hour")
+                    );
                     setForecast(_forecast);
                     setFetchForecast(false);
                 } else {
