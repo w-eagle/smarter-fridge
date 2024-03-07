@@ -41,9 +41,9 @@
     top: 34%;
     left: 10%;
     border-radius: 50%;
-    -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 1);
-    -moz-box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 1);
-    box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 1);
+    -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 0);
+    -moz-box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 0);
+    box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 0);
     animation: suntravel linear forwards;
     z-index: 40;
 }
@@ -56,9 +56,9 @@
     top: 34%;
     left: 10%;
     border-radius: 50%;
-    -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
-    -moz-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
-    box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
+    -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 0);
+    -moz-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 0);
+    box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 0);
     animation: moontravel linear forwards;
     z-index: 41;
 }
@@ -84,78 +84,103 @@
 
 @keyframes moontravel {
     0% {
-        top: 36%;
+        -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 0);
+        -moz-box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 0);
+        box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 0);
+        top: 28%;
         left: 10%;
     }
     5% {
+        -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
+        -moz-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
+        box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
         top: 19%;
-        left: 15%;
+        left: 14%;
     }
     10% {
         top: 13%;
-        left: 20%;
+        left: 18%;
     }
     15% {
         top: 9%;
-        left: 25%;
+        left: 22%;
     }
     20% {
         top: 6%;
-        left: 30%;
+        left: 26%;
     }
     25% {
         top: 4%;
-        left: 35%;
+        left: 30%;
     }
     30% {
         top: 3%;
-        left: 40%;
+        left: 34%;
     }
     35% {
         top: 3%;
-        left: 45%;
+        left: 38%;
     }
     40% {
         top: 3%;
-        left: 50%;
+        left: 42%;
     }
     45% {
         top: 3%;
-        left: 55%;
+        left: 46%;
     }
     50% {
         top: 3%;
-        left: 60%;
+        left: 50%;
     }
     55% {
-        top: 4%;
-        left: 65%;
+        top: 3%;
+        left: 54%;
     }
     60% {
-        top: 6%;
-        left: 70%;
+        top: 3%;
+        left: 58%;
     }
     65% {
-        top: 9%;
-        left: 75%;
+        top: 4%;
+        left: 62%;
     }
     70% {
-        top: 15%;
-        left: 80%;
+        top: 6%;
+        left: 66%;
     }
     75% {
-        top: 23%;
-        left: 85%;
+        top: 8%;
+        left: 70%;
     }
     80% {
-        top: 36%;
-        left: 90%;
+        top: 11%;
+        left: 74%;
+    }
+    85% {
+        top: 15%;
+        left: 78%;
+    }
+    90% {
+        top: 20%;
+        left: 82%;
+    }
+    95% {
+        -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
+        -moz-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
+        box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 1);
+        top: 28%;
+        left: 86%;
     }
     100% {
-        top: 44%;
+        -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 0);
+        -moz-box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 0);
+        box-shadow: 0px 0px 64px 7px rgba(255, 242, 255, 0);
+        top: 37%;
         left: 90%;
     }
 }
+
 @keyframes suntravel {
     0% {
         -webkit-box-shadow: 0px 0px 64px 7px rgba(255, 242, 0, 0);

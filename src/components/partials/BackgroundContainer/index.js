@@ -28,10 +28,10 @@ const getAstroInfo = (forecast) => {
 
     const sunTimeOnSky = sunset.diff(sunrise) / 1000;
 
-    const moonrise = dayjs(`${todaysAstro.date} ${todaysAstro.astro.moonrise}`);
-    const moonset = dayjs(`${todaysAstro.date} ${tomorrowsAstro.astro.moonset}`);
+    const moonrise = dayjs(`${todaysAstro.date} ${todaysAstro.astro.sunset}`);
+    const moonset = dayjs(`${tomorrowsAstro.date} ${tomorrowsAstro.astro.sunrise}`);
 
-    const moonTimeOnSky = moonrise.diff(moonset) / 1000;
+    const moonTimeOnSky = moonset.diff(moonrise) / 1000;
 
     const sunriseLength = (sunTimeOnSky / 100) * 5;
 
@@ -140,7 +140,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
 
             if (now.isAfter(sunrise) && now.isBefore(sunset) && !isDay) {
                 return setDay(true);
-            } else {
+            } else if ((isDay && now.isAfter(sunset)) || now.isBefore(sunrise)) {
                 return setDay(false);
             }
         }, 1000 * 60);
