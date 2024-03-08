@@ -75,6 +75,7 @@ const getTitle = (selectedDate) => {
 export const Weather = ({ currentWeather, forecast }) => {
     const [expanded, expand] = useState(false);
     const [selectedForecastDay, selectForecastDay] = useState(dayjs().format("YYYY-MM-DD"));
+    const [currentForecast, setCurrentForecast] = useState(forecast.forecast.forecastday);
 
     const forecastByHour = getForecastByHour({ forecast, date: selectedForecastDay });
 
@@ -84,7 +85,10 @@ export const Weather = ({ currentWeather, forecast }) => {
 
     const timeout = setTimeout(() => (expanded ? expand(false) : null), 1000 * 60 * 2);
 
-    useEffect(() => selectForecastDay(dayjs().format("YYYY-MM-DD")), [forecast]);
+    useEffect(() => {
+        setCurrentForecast(forecast.forecast.forecastday);
+        selectForecastDay(dayjs().format("YYYY-MM-DD"));
+    }, [forecast]);
 
     return (
         <div
@@ -135,7 +139,7 @@ export const Weather = ({ currentWeather, forecast }) => {
                         } animated overflow-hidden`}
                     >
                         <div className="w-full flex justify-end items-center">
-                            {forecast.forecast.forecastday.map((day, index) => (
+                            {currentForecast.map((day, index) => (
                                 <ForecastCard
                                     key={`forecast_card_${day.date}_${index}`}
                                     dayName={dayjs(day.date).format("ddd")}
