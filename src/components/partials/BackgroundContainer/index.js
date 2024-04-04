@@ -133,15 +133,18 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                 (!shouldShowSunrise &&
                     now.hour() === sunrise.hour() &&
                     now.minute() === sunrise.minute()) ||
-                (now.hour() === sunset.hour() && now.minute() === sunset.minute())
+                (now.hour() ===
+                    sunset.subtract(getAstroInfo(forecast).sunriseLength, "second").hour() &&
+                    now.minute() ===
+                        sunset.subtract(getAstroInfo(forecast).sunriseLength, "second").minute())
             ) {
                 setShowingSunrise(true);
             }
 
-            if (now.isAfter(sunrise) && now.isBefore(sunset) && !isDay) {
-                return setDay(true);
-            } else if ((isDay && now.isAfter(sunset)) || now.isBefore(sunrise)) {
-                return setDay(false);
+            if (now.isAfter(sunrise) && now.isBefore(sunset)) {
+                return !isDay ? setDay(true) : null;
+            } else {
+                return isDay ? setDay(false) : null;
             }
         }, 1000 * 60);
 

@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { Calendar, CalendarHeader, EventList } from "../../dummy";
 
-export const Clock = () => {
+export const Clock = ({ calendarEvents }) => {
     const [currentTime, setCurrentTime] = useState(dayjs());
-    const [expanded, expand] = useState(true);
+    const [expanded, expand] = useState(false);
     const [displayedCalDate, setDisplayedCalDate] = useState(dayjs());
     const [selectedCalendarDate, selectCalendarDate] = useState(dayjs());
 
@@ -24,6 +24,24 @@ export const Clock = () => {
 
         return () => clearTimeout(clockTimeout);
     }, [expanded]);
+
+    // const foundEvents = calendarEvents.filter((e) => {
+    //     // console.log(
+    //     //     "mamam",
+    //     //     !dayjs(e.startDate).isValid() ? e.startDate : null,
+    //     //     dayjs(e.startDate).format("YYYY-MM-DD"),
+    //     //     selectedCalendarDate.format("YYYY-MM-DD")
+    //     // );
+
+    //     return (
+    //         selectedCalendarDate.format("YYYY-MM-DD") === dayjs(e.startDate).format("YYYY-MM-DD")
+    //     );
+    // });
+
+    // console.log(
+    //     "found events",
+    //     calendarEvents.find((e) => e.startDate === "20240313T100000")
+    // );
 
     return (
         <div
@@ -67,7 +85,7 @@ export const Clock = () => {
                         expanded ? "w-2/3 pl-[20px]" : "w-0 overflow-hidden"
                     }  animated h-full`}
                 >
-                    <EventList title={"today"} currentEvents={[]} />
+                    <EventList title={"Today"} currentEvents={[]} />
                 </div>
             </div>
         </div>

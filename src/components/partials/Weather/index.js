@@ -82,7 +82,7 @@ const getTitle = (selectedDate) => {
 };
 
 export const Weather = ({ currentWeather, forecast }) => {
-    const [expanded, expand] = useState(true);
+    const [expanded, expand] = useState(false);
     const [selectedForecastDay, selectForecastDay] = useState(dayjs().format("YYYY-MM-DD"));
     const [currentForecast, setCurrentForecast] = useState(forecast.forecast.forecastday);
 

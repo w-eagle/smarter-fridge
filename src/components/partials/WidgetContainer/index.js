@@ -25,7 +25,7 @@ import { useEffect, useState } from "react";
 import { useModalContext } from "@/context/modalContext";
 import dayjs from "dayjs";
 
-export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
+export const WidgetContainer = ({ currentWeather, forecast, screenRef, calendarEvents }) => {
     const [showModal, closeModal] = useModalContext();
     const [notes, setNotes] = useState([]);
     const [timers, setTimers] = useState([]);
@@ -166,7 +166,7 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
     return (
         <div className={styles.container}>
             <div className={styles.widgetContainerLeft}>
-                <Clock />
+                <Clock calendarEvents={calendarEvents} />
             </div>
             <div className={styles.widgetContainerRight}>
                 {!currentWeather || !forecast ? null : (
