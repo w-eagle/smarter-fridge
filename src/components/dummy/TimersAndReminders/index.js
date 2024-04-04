@@ -58,11 +58,11 @@ export const TimersAndReminders = ({ timers, handleTimerEnd, handleTimerRemove }
                 e.stopPropagation();
             }}
         >
-            <div className="flex text-white items-center">
+            <div className="flex text-white items-center w-full overflow-auto pb-[20px]">
                 {displayedTimers.map((timer, index) => (
-                    <button
+                    <div
                         key={`shortcut_${timer.name}_${index}`}
-                        className="w-[80px] mx-[10px] text-center"
+                        className="min-w-[90px] max-w-[90px] mx-[10px] text-center"
                         onClick={() =>
                             openModal(
                                 <ModalLightbox handleClickAway={closeModal}>
@@ -109,7 +109,7 @@ export const TimersAndReminders = ({ timers, handleTimerEnd, handleTimerRemove }
                             {timer.elapsed ? "-" : ""}
                             {timer.timeLeft.hours}:{timer.timeLeft.minutes}:{timer.timeLeft.seconds}
                         </p>
-                    </button>
+                    </div>
                 ))}
             </div>
         </div>

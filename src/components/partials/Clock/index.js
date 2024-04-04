@@ -5,7 +5,7 @@ import { Calendar, CalendarHeader, EventList } from "../../dummy";
 
 export const Clock = () => {
     const [currentTime, setCurrentTime] = useState(dayjs());
-    const [expanded, expand] = useState(false);
+    const [expanded, expand] = useState(true);
     const [displayedCalDate, setDisplayedCalDate] = useState(dayjs());
     const [selectedCalendarDate, selectCalendarDate] = useState(dayjs());
 
@@ -28,7 +28,7 @@ export const Clock = () => {
     return (
         <div
             className={`${
-                expanded ? "w-full h-full" : "w-[297px] h-[126px]"
+                expanded ? "w-full h-full" : "w-[310px] h-[146px]"
             } widgetBackground animated inline-block px-8 py-4 rounded-lg backdrop-blur-sm border border-slate-600 cursor-pointer`}
             onClick={() => {
                 expand((value) => !value);
@@ -37,8 +37,8 @@ export const Clock = () => {
             <div className={`flex ${expanded ? "h-full" : "h-[126px]"} text-white animated`}>
                 <div className={`${expanded ? "w-1/3" : "w-full"} animated h-full overflow-hidden`}>
                     <div className={`flex flex-col items-center animated`}>
-                        <span className="text-[40px]">{currentTime.format("HH:mm")}</span>
-                        <p className="text-2xl">{currentTime.format("ddd, DD MMMM")}</p>
+                        <span className="text-[50px]">{currentTime.format("HH:mm")}</span>
+                        <p className="text-3xl">{currentTime.format("ddd, DD MMMM")}</p>
                     </div>
                     <div
                         className={`${

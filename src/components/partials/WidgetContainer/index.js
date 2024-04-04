@@ -16,6 +16,7 @@ import timerIcon from "../../../../public/timer.svg";
 import bellIcon from "../../../../public/bell.svg";
 import eggIcon from "../../../../public/An_egg.png";
 import friesIcon from "../../../../public/Fries.png";
+import noteIcon from "../../../../public/note.svg";
 import sweetPotIcon from "../../../../public/sweet_pot.jpg";
 import bakedPotIcon from "../../../../public/baked_pota.jpg";
 import pressurePotIcon from "../../../../public/pressure_pot.jpg";
@@ -96,6 +97,9 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
     };
 
     const createTimer = (name, time, icon) => {
+        if (time.hours === 0 && time.minutes === 0 && time.seconds === 0) {
+            return closeModal();
+        }
         const now = dayjs();
         const nowWithAddedHours = now.add(time.hours, "hour");
         const nowWithAddedMinutes = nowWithAddedHours.add(time.minutes, "minute");
@@ -137,31 +141,6 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
             name: "Baked potatoe",
             icon: bakedPotIcon.src,
             time: { hours: 1, minutes: 0, seconds: 0 }
-        }
-    ];
-
-    const alertOptions = [
-        {
-            label: "Timer",
-            icon: timerIcon.src,
-            handleClick: () => {
-                showModal(
-                    <ModalLightbox handleClickAway={closeModal}>
-                        <TimerForm
-                            handleSubmit={createTimer}
-                            handleCancel={closeModal}
-                            templates={timerTemplates}
-                        />
-                    </ModalLightbox>
-                );
-            }
-        },
-        {
-            label: "Reminder",
-            icon: bellIcon.src,
-            handleClick: () => {
-                closeModal();
-            }
         }
     ];
 
@@ -217,30 +196,36 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
             >
                 <img src={fullScreenIcon.src} />
             </button>
-            <button
-                className="widgetBackground text-white text-3xl w-[40px] h-[60px] p-[5px] animate rounded-r-lg backdrop-blur-sm border-r border-t border-b border-slate-600 cursor-pointer top-[60%] left-0 absolute z-[100]"
-                onClick={() => {
-                    showModal(
-                        <ModalLightbox handleClickAway={closeModal}>
-                            <NoteForm handleSubmit={createNote} handleCancel={closeModal} />
-                        </ModalLightbox>
-                    );
-                }}
-            >
-                +
-            </button>
-            <button
-                className="widgetBackground text-white text-3xl w-[40px] h-[60px] p-[5px] animate rounded-l-lg backdrop-blur-sm border-l border-t border-b border-slate-600 cursor-pointer top-[60%] right-0 absolute z-[100]"
-                onClick={() => {
-                    showModal(
-                        <ModalLightbox handleClickAway={closeModal}>
-                            <AlertsSelector alerts={alertOptions} />
-                        </ModalLightbox>
-                    );
-                }}
-            >
-                +
-            </button>
+            <div className="top-[55%] right-0 absolute z-[100]">
+                <button
+                    className="block widgetBackground w-[40px] h-[60px] p-[8px] animate rounded-l-lg backdrop-blur-sm border-l border-t border-b border-slate-600 cursor-pointer"
+                    onClick={() => {
+                        showModal(
+                            <ModalLightbox handleClickAway={closeModal}>
+                                <NoteForm handleSubmit={createNote} handleCancel={closeModal} />
+                            </ModalLightbox>
+                        );
+                    }}
+                >
+                    <img className="w-full h-full" src={noteIcon.src} />
+                </button>
+                <button
+                    className="mt-[10px] widgetBackground w-[40px] h-[60px] p-[8px] animate rounded-l-lg backdrop-blur-sm border-l border-t border-b border-slate-600 cursor-pointer"
+                    onClick={() => {
+                        showModal(
+                            <ModalLightbox handleClickAway={closeModal}>
+                                <TimerForm
+                                    handleSubmit={createTimer}
+                                    handleCancel={closeModal}
+                                    templates={timerTemplates}
+                                />
+                            </ModalLightbox>
+                        );
+                    }}
+                >
+                    <img className="w-full h-full" src={timerIcon.src} />
+                </button>
+            </div>
         </div>
     );
 };

@@ -1,1 +1,29 @@
+.gridContainerExpanded {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    height: 100%;
+    width: 100%;
+}
 
+.gridContainerCollapsed {
+    display: grid;
+    grid-template-columns: 0 100%;
+    grid-template-rows: 100% 0;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+.forecastContainer {
+    grid-area: 1 / 1 / 3 / 2;
+}
+.weatherContainer {
+    grid-area: 1 / 2 / 2 / 3;
+}
+.forecastCardsContainer {
+    grid-area: 2 / 2 / 3 / 3;
+}
