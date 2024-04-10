@@ -7,6 +7,12 @@ create .env file
 ```bash
 WEATHER_API_KEY=keyFromWeatherapi.com
 POST_CODE=yourPostCode
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_API_KEY=
+EMAIL_ADDRESS=
 
 ```
 
@@ -23,4 +29,3 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-

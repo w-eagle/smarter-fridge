@@ -1,0 +1,76 @@
+$rainFieldWidth: 1920;
+$rainFieldHeight: 1080;
+
+$rainOneScrollDuration: 30s;
+$rainTwoScrollDuration: 20s;
+$rainThreeScrollDuration: 10s;
+$numRain: 400;
+
+.mainRainContainer {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+@function create-rain($n) {
+    $rain: "#{random($rainFieldWidth)}px #{random($rainFieldHeight)}px #FFF";
+
+    @for $i from 2 through $n {
+        $rain: "#{$rain} , #{random($rainFieldWidth)}px #{random($rainFieldHeight)}px #FFF";
+    }
+    @return unquote($rain);
+}
+
+@mixin rain-template($rainSize, $scrollSpeed, $offsetTop, $delayTime) {
+    z-index: 10;
+    width: 1px;
+    height: $rainSize;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: create-rain($numRain);
+    animation: animRain $scrollSpeed linear infinite;
+    animation-delay: $delayTime;
+    &:after {
+        content: " ";
+        width: 1px;
+        height: $rainSize;
+        border-radius: 50%;
+        position: absolute;
+        background: transparent;
+    }
+}
+
+.rain11 {
+    @include rain-template(4px, $rainOneScrollDuration, 0, 0s);
+}
+
+.rain12 {
+    @include rain-template(2px, $rainOneScrollDuration, 1080px, 15s);
+}
+
+.rain21 {
+    @include rain-template(4px, $rainTwoScrollDuration, 0, 0s);
+}
+
+.rain22 {
+    @include rain-template(4px, $rainTwoScrollDuration, 1080px, 10s);
+}
+
+.rain31 {
+    @include rain-template(8px, $rainThreeScrollDuration, 0, 0s);
+}
+
+.rain32 {
+    @include rain-template(8px, $rainThreeScrollDuration, 1080px, 5s);
+}
+
+@keyframes animRain {
+    from {
+        transform: translateY(-1080px);
+    }
+    to {
+        transform: translateY(#{$rainFieldHeight}px);
+    }
+}

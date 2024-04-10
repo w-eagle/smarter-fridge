@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import styles from "./styles.module.css";
-import rain from "./rain.module.css";
+import rain from "./rain.module.scss";
 import stars from "./stars.module.scss";
 import houseDay from "../../../../public/house_day_full_hd.png";
 import housenight from "../../../../public/house_night_2_full_hd.png";
@@ -107,12 +107,50 @@ const getAmountOfClouds = (weather) => {
     return 0;
 };
 
+const getAmountOfRain = (weather) => {
+    const lightRain = [
+        "Patchy light drizzle",
+        "Light drizzle",
+        "Freezing drizzle",
+        "Patchy light rain",
+        "Light rain",
+        "Light freezing rain",
+        "Light rain shower",
+        "Patchy light rain with thunder"
+    ];
+    const moderateRain = [
+        "Moderate or heavy freezing rain",
+        "Moderate rain at times",
+        "Moderate rain",
+        "Moderate or heavy rain shower",
+        "Moderate or heavy rain with thunder"
+    ];
+    const heavyRain = [
+        "Heavy freezing drizzle",
+        "Heavy rain at times",
+        "Heavy rain",
+        "Torrential rain shower"
+    ];
+
+    if (lightRain.includes(weather)) {
+        return 1;
+    }
+    if (moderateRain.includes(weather)) {
+        return 2;
+    }
+    if (heavyRain.includes(weather)) {
+        return 3;
+    }
+    return 0;
+};
+
 export const BackgroundContainer = ({ currentWeather, forecast }) => {
     const [isDay, setDay] = useState(true);
     const [astroInfo, setAstroInfo] = useState(getAstroInfo(forecast));
     const [shouldShowSunrise, setShowingSunrise] = useState(false);
     const weatherConditions = currentWeather.current.condition.text;
     const amountOfClouds = getAmountOfClouds(weatherConditions);
+    const amountOfRain = getAmountOfRain(weatherConditions);
 
     useEffect(() => {
         setAstroInfo(getAstroInfo(forecast));
@@ -134,9 +172,11 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                     now.hour() === sunrise.hour() &&
                     now.minute() === sunrise.minute()) ||
                 (now.hour() ===
-                    sunset.subtract(getAstroInfo(forecast).sunriseLength, "second").hour() &&
+                    sunset.subtract(getAstroInfo(forecast).sunriseLength / 2, "second").hour() &&
                     now.minute() ===
-                        sunset.subtract(getAstroInfo(forecast).sunriseLength, "second").minute())
+                        sunset
+                            .subtract(getAstroInfo(forecast).sunriseLength / 2, "second")
+                            .minute())
             ) {
                 setShowingSunrise(true);
             }
@@ -157,7 +197,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
         }
     }, [shouldShowSunrise]);
 
-    return !astroInfo || !weatherConditions ? null : (
+    return astroInfo && weatherConditions ? (
         <div className={styles.container}>
             <div
                 style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
@@ -200,21 +240,6 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                 style={{ animationDuration: astroInfo.moonTimeOnSkyInSeconds }}
                 className={`${!isDay ? styles.moon : styles.invisible}`}
             ></div>
-            <div
-                style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
-                className={`${stars.starsConatiner} ${!isDay ? styles.visible : styles.invisible}`}
-            >
-                <div className={stars.mainContainer}>
-                    <div className={stars.subContainer}>
-                        <div className={stars.sky}>
-                            <div className={stars.stars}></div>
-                            <div className={stars.stars2}></div>
-                            <div className={stars.stars2}></div>
-                            <div className={stars.comet}></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             {amountOfClouds >= 1 ? (
                 <div
@@ -262,23 +287,49 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                 </div>
             </div>
             <div className="thunder container 80"></div>
-            <div className="absolute top-0 left-0 w-full h-full rain container z-[90]">
-                {/* <div className={`${rain.backRowToggle} ${rain.splatToggle}"`}>
-                    <div className={`${rain.rain} ${rain.frontRow}`}></div>
-                    <div className={`${rain.rain} ${rain.backRow}`}></div>
-                    <div className={rain.toggles}>
-                        <div className={`${rain.splatToggle} ${rain.toggle} ${rain.active}`}>
-                            SPLAT
+            <div
+                style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
+                className={`${stars.starsConatiner} ${!isDay ? styles.visible : styles.invisible}`}
+            >
+                <div className={stars.mainContainer}>
+                    <div className={stars.subContainer}>
+                        <div className={stars.sky}>
+                            <div className={stars.stars}></div>
+                            <div className={stars.stars2}></div>
+                            <div className={stars.stars2}></div>
+                            <div className={stars.comet}></div>
                         </div>
-                        <div className={`${rain.backRowToggle} ${rain.toggle} ${rain.active}`}>
-                            BACK
-                            <br />
-                            ROW
-                        </div>
-                        <div className={`${rain.singleToggle} ${rain.toggle}`}>SINGLE</div>
                     </div>
-                </div> */}
+                </div>
             </div>
+            {amountOfRain > 0 ? (
+                <div className="absolute top-0 left-0 w-full h-full z-[90]">
+                    <div className={rain.mainRainContainer}>
+                        <div className={rain.subRainContainer}>
+                            <div className={rain.rainSky}>
+                                {amountOfRain <= 1 ? (
+                                    <>
+                                        <div className={rain.rain11}></div>
+                                        <div className={rain.rain12}></div>
+                                    </>
+                                ) : null}
+                                {amountOfRain <= 2 ? (
+                                    <>
+                                        <div className={rain.rain21}></div>
+                                        <div className={rain.rain22}></div>
+                                    </>
+                                ) : null}
+                                {amountOfRain <= 3 ? (
+                                    <>
+                                        <div className={rain.rain31}></div>
+                                        <div className={rain.rain32}></div>
+                                    </>
+                                ) : null}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
         </div>
-    );
+    ) : null;
 };

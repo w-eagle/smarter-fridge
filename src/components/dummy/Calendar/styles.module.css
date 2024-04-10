@@ -4,13 +4,13 @@
 
 .card {
     width: 100%;
+    max-height: 230px;
 }
 
 .table {
     text-align: center;
     min-height: 175px;
     width: 100%;
-    text-align: center;
     margin-top: 15px;
     font-size: 16px;
     color: white;
@@ -30,15 +30,24 @@
 }
 
 .rowCell {
-    height: 25px;
+    height: 30px;
     width: 14.25%;
     font-weight: 300;
+    font-size: 14px;
 }
 
 .selectedStartCellWithoutEndDate {
     color: black;
     background-color: rgb(255 255 255);
     border-radius: 5px;
+}
+
+.selectedDateIndicator {
+    background-color: rgb(0 0 0);
+}
+
+.unselectedDateIndicator {
+    background-color: rgb(255 255 255);
 }
 
 .pointer {

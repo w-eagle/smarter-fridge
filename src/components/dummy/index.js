@@ -11,3 +11,4 @@ export { TimerForm } from "./TimerForm";
 export { TimersAndReminders } from "./TimersAndReminders";
 export { EventList } from "./EventList";
 export { TimerEllapsed } from "./TimerEllapsed";
+export { SidePanelButtons } from "./SidePanelButtons";

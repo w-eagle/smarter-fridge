@@ -9,6 +9,13 @@ const getCellClass = (cellDate, selectedStartDate) => {
     return;
 };
 
+const getEventIndicatorClass = (cellDate, selectedStartDate) => {
+    if (selectedStartDate.isValid() && cellDate.isSame(selectedStartDate)) {
+        return styles.selectedDateIndicator;
+    }
+    return styles.unselectedDateIndicator;
+};
+
 const numberOfDays = Array(7).fill(undefined);
 const numberOfRows = Array(6).fill(undefined);
 
@@ -20,12 +27,21 @@ const dayNames = numberOfDays.map((_, index) => {
 
 const daysInMonth = (iMonth, iYear) => 31 - new Date(iYear, iMonth, 32).getDate();
 
+const hasCalendarEvents = (selectedDate, allEvents) => {
+    return (
+        allEvents?.filter(
+            (e) => dayjs(e?.start?.dateTime).isSame(selectedDate, "day") && e.status !== "cancelled"
+        )?.length > 0
+    );
+};
+
 export const Calendar = ({
     currentDate,
     displayedYear,
     displayedMonth,
     selectedStartDate,
-    onDateSelect
+    onDateSelect,
+    calendarEvents
 }) => {
     let startDate = 0;
 
@@ -98,6 +114,29 @@ export const Calendar = ({
                                                 }}
                                             >
                                                 {cellDate}
+                                                {hasCalendarEvents(
+                                                    `${displayedYear}-${(displayedMonth + 1)
+                                                        .toString()
+                                                        .padStart(2, "0")}-${cellDate
+                                                        .toString()
+                                                        .padStart(2, "0")}`,
+                                                    calendarEvents
+                                                ) ? (
+                                                    <div className="w-full flex justify-center">
+                                                        <div
+                                                            className={`${getEventIndicatorClass(
+                                                                dayjs(
+                                                                    `${displayedYear}-${
+                                                                        displayedMonth + 1
+                                                                    }-${cellDate}`
+                                                                ),
+                                                                dayjs(selectedStartDate)
+                                                            )} w-[5px] h-[5px] rounded-full`}
+                                                        ></div>
+                                                    </div>
+                                                ) : (
+                                                    <div className={`w-[5px] h-[5px]`}></div>
+                                                )}
                                             </td>
                                         );
                                     }
@@ -126,6 +165,29 @@ export const Calendar = ({
                                             )}`}
                                         >
                                             {cellDate}
+                                            {hasCalendarEvents(
+                                                `${displayedYear}-${(displayedMonth + 1)
+                                                    .toString()
+                                                    .padStart(2, "0")}-${cellDate
+                                                    .toString()
+                                                    .padStart(2, "0")}`,
+                                                calendarEvents
+                                            ) ? (
+                                                <div className="w-full flex justify-center">
+                                                    <div
+                                                        className={`${getEventIndicatorClass(
+                                                            dayjs(
+                                                                `${displayedYear}-${
+                                                                    displayedMonth + 1
+                                                                }-${cellDate}`
+                                                            ),
+                                                            dayjs(selectedStartDate)
+                                                        )} w-[5px] h-[5px] rounded-full`}
+                                                    ></div>
+                                                </div>
+                                            ) : (
+                                                <div className={`w-[5px] h-[5px]`}></div>
+                                            )}
                                         </td>
                                     );
                                 })}

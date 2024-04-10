@@ -4,15 +4,12 @@ import { ModalProvider } from "@/context/modalContext";
 import { getCurrentWeather } from "@/actions/getCurrentWeather";
 import { getForecast } from "@/actions/getForecast";
 import dayjs from "dayjs";
-import { getCalendarEvents } from "@/actions/getCalendarEvents";
 
 export default function HomePage() {
     const [forecast, setForecast] = useState(false);
     const [currentWeather, setCurrentWeather] = useState(false);
-    const [calendarEvents, setCalendarEvents] = useState(false);
     const [fetchCurrentWeather, setFetchCurrentWeather] = useState(true);
     const [fetchForecast, setFetchForecast] = useState(true);
-    const [fetchCalendarEvents, setFetchCalendarEvents] = useState(true);
     const [error, setError] = useState(false);
 
     useEffect(() => {
@@ -102,54 +99,10 @@ export default function HomePage() {
         };
     }, [fetchForecast]);
 
-    // useEffect(() => {
-    //     const abortController = new AbortController();
-    //     const signal = abortController.signal;
-
-    //     (async () => {
-    //         if (fetchCalendarEvents || !calendarEvents) {
-    //             console.warn("fetching calendar events");
-    //             const events = await getCalendarEvents({ signal });
-
-    //             if (events?.error) {
-    //                 setFetchCalendarEvents(false);
-    //                 localStorage.setItem(
-    //                     "nextCalendarEventsFetch",
-    //                     dayjs().add(2, "minute").startOf("minute")
-    //                 );
-    //                 return setError(
-    //                     `${dayjs().format(
-    //                         "HH:MM"
-    //                     )}: Failed to fetch calendar events \nNext attempt: ${dayjs()
-    //                         .add(2, "minute")
-    //                         .startOf("minute")}`
-    //                 );
-    //             }
-
-    //             if (events) {
-    //                 setError(false);
-    //                 localStorage.setItem(
-    //                     "nextCalendarEventsFetch",
-    //                     dayjs().add(1, "hour").startOf("hour")
-    //                 );
-    //                 setCalendarEvents(events);
-    //                 setFetchCalendarEvents(false);
-    //             } else {
-    //                 setCalendarEvents(false);
-    //             }
-    //         }
-    //     })();
-
-    //     return () => {
-    //         abortController.abort();
-    //     };
-    // }, [fetchCalendarEvents]);
-
     useEffect(() => {
         const interval = setInterval(() => {
             const nextCurrentWeatherFetchDate = localStorage.getItem("nextCurrentWeatherFetch");
             const nextForecastFetchDate = localStorage.getItem("nextForecastFetch");
-            const nextCalendarEventsFetch = localStorage.getItem("nextCalendarEventsFetch");
 
             if (
                 !nextCurrentWeatherFetchDate ||
@@ -160,9 +113,6 @@ export default function HomePage() {
             if (!nextForecastFetchDate || dayjs().isAfter(dayjs(nextForecastFetchDate))) {
                 setFetchForecast(true);
             }
-            // if (!nextCalendarEventsFetch || dayjs().isAfter(dayjs(nextCalendarEventsFetch))) {
-            //     setFetchCalendarEvents(true);
-            // }
         }, 60000);
         return () => clearInterval(interval);
     }, []);
@@ -178,7 +128,6 @@ export default function HomePage() {
                         currentWeather={currentWeather}
                         forecast={forecast}
                         screenRef={screenRef}
-                        calendarEvents={calendarEvents}
                     />
                 </ModalProvider>
             )}

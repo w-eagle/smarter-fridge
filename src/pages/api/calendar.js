@@ -1,13 +1,22 @@
-import icsToJson from "ics-to-json";
-
 export default async function GET(req, res) {
-    const icsRes = await fetch(process.env.GOOGLE_CALLENDAR);
-    const icsData = await icsRes.text();
+    try {
+        const token = decodeURIComponent(req.query.token);
+        const calendarEvents = await fetch(
+            `https://www.googleapis.com/calendar/v3/calendars/${process.env.EMAIL_ADDRESS}/events?key=${process.env.GOOGLE_API_KEY}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
 
-    const data = icsToJson(icsData);
-    console.log("getting calendar events", new Date());
+        const json = await calendarEvents.json();
+        console.log("getting calendar events", new Date());
 
-    console.log(data);
-
-    res.status(200).send(data);
+        res.status(200).send(json);
+    } catch (e) {
+        console.log(e);
+    }
 }

@@ -134,7 +134,7 @@ export const Weather = ({ currentWeather, forecast }) => {
                     onClick={(e) => {
                         e.stopPropagation();
                     }}
-                    className={`${styles.forecastCardsContainer} flex overflow-hidden justify-end items-start`}
+                    className={`${styles.forecastCardsContainer} flex overflow-hidden justify-end items-end`}
                 >
                     <div
                         className={`${

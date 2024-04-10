@@ -12,7 +12,7 @@ export const CalendarHeader = ({ handlePrev, handleNext, displayedDate }) => (
         )}
         <p className={`${styles.displayedDate} text-lg`}>{displayedDate}</p>
         {handleNext ? (
-            <div onClick={handleNext}>
+            <div onClick={handleNext} className="w-full justify-center flex">
                 <img src={arrowUp.src} className={styles.arrow} />
             </div>
         ) : (
