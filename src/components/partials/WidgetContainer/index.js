@@ -92,7 +92,12 @@ export const WidgetContainer = ({ currentWeather, forecast, screenRef }) => {
             <div className={`${styles.lastRow} ${styles.widgetContainerLeft}`}>
                 <Shortcuts />
             </div>
-            <SidePanel timers={timers} setTimers={setTimers} setNotes={setNotes} />
+            <SidePanel
+                timers={timers}
+                setTimers={setTimers}
+                setNotes={setNotes}
+                screenRef={screenRef}
+            />
         </div>
     );
 };

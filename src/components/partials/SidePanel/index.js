@@ -9,7 +9,7 @@ import { ModalLightbox, NoteForm, SidePanelButtons, TimerForm } from "@/componen
 import { useModalContext } from "@/context/modalContext";
 import dayjs from "dayjs";
 
-export const SidePanel = ({ timers, setTimers, setNotes }) => {
+export const SidePanel = ({ timers, setTimers, setNotes, screenRef }) => {
     const [showModal, closeModal] = useModalContext();
 
     const enterFullscreen = () => {
