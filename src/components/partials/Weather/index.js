@@ -88,6 +88,8 @@ export const Weather = ({ currentWeather, forecast }) => {
 
     const forecastByHour = getForecastByHour({ forecast, date: selectedForecastDay });
 
+    console.log(forecast, currentWeather);
+
     const todaysAstro = forecast.forecast.forecastday.find(
         (day) => day.date === dayjs().format("YYYY-MM-DD")
     ).astro;

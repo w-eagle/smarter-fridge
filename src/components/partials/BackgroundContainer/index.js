@@ -20,6 +20,8 @@ const getAstroInfo = (forecast) => {
     const today = dayjs().format("YYYY-MM-DD");
     const tomorrow = dayjs().add(1, "day").format("YYYY-MM-DD");
 
+    console.log(forecast);
+
     const todaysAstro = forecast.forecast.forecastday.find((day) => day.date === today);
     const tomorrowsAstro = forecast.forecast.forecastday.find((day) => day.date === tomorrow);
 
@@ -148,6 +150,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
     const [isDay, setDay] = useState(true);
     const [astroInfo, setAstroInfo] = useState(getAstroInfo(forecast));
     const [shouldShowSunrise, setShowingSunrise] = useState(false);
+    console.log(currentWeather);
     const weatherConditions = currentWeather.current.condition.text;
     const amountOfClouds = getAmountOfClouds(weatherConditions);
     const amountOfRain = getAmountOfRain(weatherConditions);
