@@ -20,7 +20,7 @@ const numberOfDays = Array(7).fill(undefined);
 const numberOfRows = Array(6).fill(undefined);
 
 const dayNames = numberOfDays.map((_, index) => {
-    return new Date(2022, 7, index).toLocaleString("en-GB", {
+    return new Date(2022, 10, index).toLocaleString("en-GB", {
         weekday: "short"
     });
 });
@@ -69,7 +69,7 @@ export const Calendar = ({
                             <tr className="mt-2" key={`calendarRow_${displayedMonth}_${rowIndex}`}>
                                 {numberOfDays.map((_, dayIndex) => {
                                     // empty cell
-                                    if (rowIndex === 0 && dayIndex < firstDay) {
+                                    if (rowIndex === 0 && dayIndex < firstDay - 1) {
                                         return (
                                             <td
                                                 key={`calendarEmptyCell_${displayedMonth}_${dayIndex}`}

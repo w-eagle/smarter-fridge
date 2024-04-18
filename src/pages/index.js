@@ -30,7 +30,7 @@ export default function HomePage() {
 
                     return setError(
                         `${dayjs().format(
-                            "HH:MM"
+                            "HH:mm"
                         )}: Failed to fetch weather \nNext attempt: ${dayjs()
                             .add(2, "minute")
                             .startOf("minute")}`
@@ -73,7 +73,7 @@ export default function HomePage() {
                     );
                     return setError(
                         `${dayjs().format(
-                            "HH:MM"
+                            "HH:mm"
                         )}: Failed to fetch forecast \nNext attempt: ${dayjs()
                             .add(2, "minute")
                             .startOf("minute")}`

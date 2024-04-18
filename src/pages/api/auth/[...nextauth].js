@@ -1,9 +1,14 @@
+import dayjs from "dayjs";
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
     session: {
+        maxAge: 43200,
         strategy: "jwt"
+    },
+    jwt: {
+        maxAge: 43200
     },
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
@@ -12,6 +17,7 @@ export const authOptions = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             authorization: {
                 params: {
+                    access_type: "offline",
                     scope: "openid https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events"
                 }
             }
@@ -19,6 +25,9 @@ export const authOptions = {
     ],
     debug: true,
     callbacks: {
+        async signIn({ account, profile }) {
+            return { account, profile };
+        },
         session({ session, token }) {
             if (token.access_token) {
                 session.access_token = token.access_token;

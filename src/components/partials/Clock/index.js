@@ -58,7 +58,6 @@ export const Clock = () => {
         if (status === "authenticated") {
             const getEvents = async () => {
                 const res = await getCalendarEvents({ token: session.access_token, signal });
-                console.log("res", session.access_token);
                 setCalendarEvents(res.items);
                 setVisibleCalendarEvents(
                     res?.items?.filter(
@@ -87,8 +86,6 @@ export const Clock = () => {
             )
         );
     };
-
-    console.log(calendarEvents, visibleCalendarEvents, status);
 
     return (
         <div
@@ -126,32 +123,29 @@ export const Clock = () => {
                             onDateSelect={(date) => onDateSelect(date)}
                             calendarEvents={calendarEvents}
                         />
-                        {
-                            status === "unauthenticated" ? (
-                                <a
-                                    className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
-                                    style={{ backgroundColor: "#ffffff", color: "gray" }}
-                                    onClick={async () => {
-                                        popupCenter("/google-signin", "Sample Sign In");
-                                    }}
-                                    role="button"
-                                >
-                                    Login
-                                </a>
-                            ) : null
-                            // (
-                            //     <a
-                            //         className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
-                            //         style={{ backgroundColor: "#ffffff", color: "gray" }}
-                            //         onClick={async () => {
-                            //             signOut();
-                            //         }}
-                            //         role="button"
-                            //     >
-                            //         Logout
-                            //     </a>
-                            // )
-                        }
+                        {status === "unauthenticated" ? (
+                            <a
+                                className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
+                                style={{ backgroundColor: "#ffffff", color: "gray" }}
+                                onClick={async () => {
+                                    popupCenter("/google-signin", "Sample Sign In");
+                                }}
+                                role="button"
+                            >
+                                Login
+                            </a>
+                        ) : (
+                            <a
+                                className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
+                                style={{ backgroundColor: "#ffffff", color: "gray" }}
+                                onClick={async () => {
+                                    signOut();
+                                }}
+                                role="button"
+                            >
+                                Logout
+                            </a>
+                        )}
                     </div>
                 </div>
                 <div
