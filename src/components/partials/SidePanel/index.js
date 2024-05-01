@@ -65,7 +65,6 @@ export const SidePanel = ({ timers, setTimers, setNotes, screenRef }) => {
 
     const createNote = (note) => {
         if (note) {
-            console.log(note);
             const localStorageNotes = localStorage.getItem("notes");
             const parsedNotes = localStorageNotes ? JSON.parse(localStorageNotes) : [];
 

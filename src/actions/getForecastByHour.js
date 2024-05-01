@@ -4,16 +4,18 @@ export const getForecastByHour = ({ forecast, date }) => {
     const currentHour = dayjs().hour();
     const isForecastForToday = dayjs().format("YYYY-MM-DD") === date;
 
-    const todaysForecast = forecast.forecast.forecastday.find((day) => day.date === date).hour;
+    const todaysForecastByHour = forecast?.forecast?.forecastday?.find(
+        (day) => day?.date === date
+    )?.hour;
 
-    const todaysForecastCurrentHourIndex = todaysForecast.findIndex(
+    const todaysForecastCurrentHourIndex = todaysForecastByHour.findIndex(
         (day) => dayjs.unix(day.time_epoch).hour() === currentHour
     );
 
-    const todaysForecastFromCurrentHour = todaysForecast.slice(
+    const todaysForecastFromCurrentHour = todaysForecastByHour.slice(
         todaysForecastCurrentHourIndex,
-        todaysForecast.length
+        todaysForecastByHour.length
     );
 
-    return isForecastForToday ? todaysForecastFromCurrentHour : todaysForecast;
+    return isForecastForToday ? todaysForecastFromCurrentHour : todaysForecastByHour;
 };

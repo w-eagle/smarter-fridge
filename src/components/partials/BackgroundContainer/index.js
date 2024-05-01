@@ -20,9 +20,8 @@ const getAstroInfo = (forecast) => {
     const today = dayjs().format("YYYY-MM-DD");
     const tomorrow = dayjs().add(1, "day").format("YYYY-MM-DD");
 
-    console.log(forecast);
-
     const todaysAstro = forecast.forecast.forecastday.find((day) => day.date === today);
+
     const tomorrowsAstro = forecast.forecast.forecastday.find((day) => day.date === tomorrow);
 
     const sunrise = dayjs(`${todaysAstro.date} ${todaysAstro.astro.sunrise}`);
@@ -147,10 +146,9 @@ const getAmountOfRain = (weather) => {
 };
 
 export const BackgroundContainer = ({ currentWeather, forecast }) => {
-    const [isDay, setDay] = useState(true);
+    const [dayNightCycle, setDayNightCycle] = useState("day");
     const [astroInfo, setAstroInfo] = useState(getAstroInfo(forecast));
     const [shouldShowSunrise, setShowingSunrise] = useState(false);
-    console.log(currentWeather);
     const weatherConditions = currentWeather.current.condition.text;
     const amountOfClouds = getAmountOfClouds(weatherConditions);
     const amountOfRain = getAmountOfRain(weatherConditions);
@@ -164,6 +162,10 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
             const today = dayjs().format("YYYY-MM-DD");
 
             const todaysAstro = forecast.forecast.forecastday.find((day) => day.date === today);
+
+            if (!todaysAstro) {
+                return;
+            }
 
             const sunrise = dayjs(`${todaysAstro.date} ${todaysAstro.astro.sunrise}`);
             const sunset = dayjs(`${todaysAstro.date} ${todaysAstro.astro.sunset}`);
@@ -185,9 +187,13 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
             }
 
             if (now.isAfter(sunrise) && now.isBefore(sunset)) {
-                return !isDay ? setDay(true) : null;
+                if (dayNightCycle !== "day") {
+                    return setDayNightCycle("day");
+                }
             } else {
-                return isDay ? setDay(false) : null;
+                if (dayNightCycle !== "night") {
+                    return setDayNightCycle(false);
+                }
             }
         }, 1000 * 60);
 
@@ -200,25 +206,27 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
         }
     }, [shouldShowSunrise]);
 
+    console.log("is day", dayNightCycle);
+
     return astroInfo && weatherConditions ? (
         <div className={styles.container}>
             <div
                 style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
                 className={`${
-                    !isDay ? styles.containerNight : styles.containerDay
+                    dayNightCycle === "night" ? styles.containerNight : styles.containerDay
                 } h-[100vh] w-[100vw]`}
             >
                 <img
                     style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
                     className={`${
-                        isDay ? styles.visible : styles.invisible
+                        dayNightCycle === "day" ? styles.visible : styles.invisible
                     } w-full h-full absolute top-0 left-0 z-[70]`}
                     src={houseDay.src}
                 />
                 <img
                     style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
                     className={`${
-                        !isDay ? styles.visible : styles.invisible
+                        dayNightCycle === "night" ? styles.visible : styles.invisible
                     } w-full h-full absolute top-0 left-0 z-[70]`}
                     src={housenight.src}
                 />
@@ -237,11 +245,11 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                 style={{
                     animationDuration: astroInfo.sunTimeOnSkyInSeconds
                 }}
-                className={`${isDay ? styles.sun : styles.invisible}`}
+                className={`${dayNightCycle === "day" ? styles.sun : styles.invisible}`}
             ></div>
             <div
                 style={{ animationDuration: astroInfo.moonTimeOnSkyInSeconds }}
-                className={`${!isDay ? styles.moon : styles.invisible}`}
+                className={`${dayNightCycle === "night" ? styles.moon : styles.invisible}`}
             ></div>
 
             {amountOfClouds >= 1 ? (
@@ -292,7 +300,9 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
             <div className="thunder container 80"></div>
             <div
                 style={{ transitionDuration: `${astroInfo.sunriseLength}s` }}
-                className={`${stars.starsConatiner} ${!isDay ? styles.visible : styles.invisible}`}
+                className={`${stars.starsConatiner} ${
+                    dayNightCycle === "night" ? styles.visible : styles.invisible
+                }`}
             >
                 <div className={stars.mainContainer}>
                     <div className={stars.subContainer}>
@@ -310,19 +320,19 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                     <div className={rain.mainRainContainer}>
                         <div className={rain.subRainContainer}>
                             <div className={rain.rainSky}>
-                                {amountOfRain <= 1 ? (
+                                {amountOfRain >= 1 ? (
                                     <>
                                         <div className={rain.rain11}></div>
                                         <div className={rain.rain12}></div>
                                     </>
                                 ) : null}
-                                {amountOfRain <= 2 ? (
+                                {amountOfRain >= 2 ? (
                                     <>
                                         <div className={rain.rain21}></div>
                                         <div className={rain.rain22}></div>
                                     </>
                                 ) : null}
-                                {amountOfRain <= 3 ? (
+                                {amountOfRain >= 3 ? (
                                     <>
                                         <div className={rain.rain31}></div>
                                         <div className={rain.rain32}></div>

@@ -29,7 +29,7 @@ const CurrentWeatherDisplay = ({ expand, currentWeather, timeout }) => (
             <p className="drop-shadow-xl text-[50px]">{currentWeather.current.temp_c}°</p>
         </div>
         <div className="text-center">
-            <p className="drop-shadow-xl text-xl">{currentWeather.current.condition.text}</p>
+            <p className="drop-shadow-xl text-xl">{currentWeather?.current?.condition?.text}</p>
         </div>
     </div>
 );
@@ -85,10 +85,7 @@ export const Weather = ({ currentWeather, forecast }) => {
     const [expanded, expand] = useState(false);
     const [selectedForecastDay, selectForecastDay] = useState(dayjs().format("YYYY-MM-DD"));
     const [currentForecast, setCurrentForecast] = useState(forecast.forecast.forecastday);
-
-    const forecastByHour = getForecastByHour({ forecast, date: selectedForecastDay });
-
-    console.log(forecast, currentWeather);
+    const [forecastByHour, setForecastByHour] = useState();
 
     const todaysAstro = forecast.forecast.forecastday.find(
         (day) => day.date === dayjs().format("YYYY-MM-DD")
@@ -100,6 +97,10 @@ export const Weather = ({ currentWeather, forecast }) => {
         setCurrentForecast(forecast.forecast.forecastday);
         selectForecastDay(dayjs().format("YYYY-MM-DD"));
     }, [forecast]);
+
+    useEffect(() => {
+        setForecastByHour(getForecastByHour({ forecast, date: selectedForecastDay }));
+    }, [selectedForecastDay]);
 
     return (
         <div
@@ -117,10 +118,12 @@ export const Weather = ({ currentWeather, forecast }) => {
                         expanded ? "opacity-1 w-full h-full animationDelay" : "opacity-0 w-0 h-0"
                     } animated overflow-hidden`}
                 >
-                    <WeatherByHourPanel
-                        title={getTitle(selectedForecastDay)}
-                        forecastByHour={forecastByHour}
-                    />
+                    {forecastByHour ? (
+                        <WeatherByHourPanel
+                            title={getTitle(selectedForecastDay)}
+                            forecastByHour={forecastByHour}
+                        />
+                    ) : null}
                 </div>
                 <div className={`${styles.weatherContainer} w-full flex justify-end items-start`}>
                     <div className="w-[350px] flex">
