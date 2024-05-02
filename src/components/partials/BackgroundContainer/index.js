@@ -192,7 +192,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
                 }
             } else {
                 if (dayNightCycle !== "night") {
-                    return setDayNightCycle(false);
+                    return setDayNightCycle("night");
                 }
             }
         }, 1000 * 60);
@@ -206,7 +206,7 @@ export const BackgroundContainer = ({ currentWeather, forecast }) => {
         }
     }, [shouldShowSunrise]);
 
-    console.log("is day", dayNightCycle);
+    console.log("dayNightCycle", dayNightCycle);
 
     return astroInfo && weatherConditions ? (
         <div className={styles.container}>
